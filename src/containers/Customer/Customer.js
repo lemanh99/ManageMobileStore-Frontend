@@ -1,96 +1,46 @@
+import { MDBDataTable } from "mdbreact";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAdminById, getListAdmin, signup } from "../../actions";
+import { getListCustomer } from "../../actions";
 import Layout from "../../components/Layout";
 import Notification from "../../components/UI/Notification";
-import { MDBDataTable } from "mdbreact";
-import AddAdminModal from "./Components/AddAdminModal";
-import DeleteAdminModal from "./Components/DeleteAdminModal";
 
-const ManageAdmin = () => {
-  const manage_admin = useSelector((state) => state.manage_admin);
-  const auth = useSelector((state) => state.auth);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [listAdmin, setListAdmin] = useState([]);
-  const [show, setShow] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [adminDelete, setAdminDelete] = useState({});
-  const [message, setMessage] = useState("");
-
+const Customer = () => {
+  const customer = useSelector((state) => state.customer);
   const dispatch = useDispatch();
-  const authenticate = auth.user.role;
+
+  const [listCustomer, setListCustomer] = useState([]);
+  const [message, setMessage] = useState("");
+  const [handleShow, setHandleShow] = useState(false);
 
   useEffect(() => {
-    if (!manage_admin.loading) {
-      dispatch(getListAdmin());
+    if (!customer.loading) {
+      dispatch(getListCustomer());
     }
-    setMessage("");
   }, []);
-
   useEffect(() => {
-    setListAdmin(manage_admin.listAdmin);
-  }, [manage_admin.listAdmin]);
+    setListCustomer(customer.listCustomer);
+  }, [customer.listCustomer]);
 
-  //Set Modal
-  const handleShow = () => setShow(true);
-  const handleShowDelete = (event) => {
-    const id = event.target.value;
-    const admin = manage_admin.listAdmin.find((admin) => admin._id === id);
-    setAdminDelete(admin);
-    setShowDeleteModal(true);
-    
-  };
-  const handleClose = () => {
-    const user = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
-    dispatch(signup(user));
-    setShow(false);
-    setMessage("Register a new admin successfully!")
-  };
-  const handleCloseDelete = () => {
-    dispatch(deleteAdminById(adminDelete._id));
-    setAdminDelete({});
-    setShowDeleteModal(false);
-    setMessage("Delete Successfully!")
-  };
-
-  //Set table
-  const rowTable = (listAdmin) => {
+  const rowTable = (customers) => {
     const all = [];
-    for (let [index, admin] of listAdmin.entries()) {
+    for (let [index, customer] of customers.entries()) {
       var element = {
         sr: index + 1,
-        email: admin.email,
-        fullName: admin.fullName,
-        role: admin.role,
-        btnButton:
-          authenticate === "super-admin" ? (
-            admin.role === "super-admin" ? (
-              <button type="button" className="btn  btn-dark" disabled>
-                Delete
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn  btn-danger"
-                value={admin._id}
-                onClick={handleShowDelete}
-              >
-                Delete
-              </button>
-            )
-          ) : (
-            <button type="button" className="btn  btn-dark" disabled>
-              Delete
+        username: customer.username,
+        email: customer.email,
+        fullName: customer.fullName,
+        btnButton: (
+          <div style={{textAlign:"center"}}>
+            <button type="button" class="btn btn-default " style={{ marginRight:"4px"}}>
+               Detail
             </button>
-          ),
+            <button type="button" class="btn btn-default">
+               Block
+            </button>
+          </div>
+        ),
+        //   a
       };
       all.push(element);
     }
@@ -101,6 +51,12 @@ const ManageAdmin = () => {
       {
         label: "No.",
         field: "sr",
+        sort: "asc",
+        width: 150,
+      },
+      {
+        label: "Username",
+        field: "username",
         sort: "asc",
         width: 150,
       },
@@ -117,23 +73,17 @@ const ManageAdmin = () => {
         width: 270,
       },
       {
-        label: "Authenticate",
-        field: "role",
-        sort: "asc",
-        width: 200,
-      },
-      {
         label: "",
         field: "btnButton",
         sort: "asc",
-        width: 150,
+        width: 100,
       },
     ],
-    rows: rowTable(listAdmin),
+    rows: rowTable(listCustomer),
   };
 
   return (
-    <Layout title="Manage admin">
+    <Layout title="Manage customer">
       <section className="content">
         <div className="container-fluid">
           <div className="row">
@@ -145,10 +95,9 @@ const ManageAdmin = () => {
                       className="btn btn-block bg-gradient-primary"
                       onClick={handleShow}
                     >
-                      New A Admin
+                      New A Customer
                     </button>
                   </div>
-                  {/* <h3 className="float-sm-right">MANAGE ADMIN</h3> */}
                 </div>
                 <div className="row justify-content-center">
                   <div style={{ marginTop: "5px", marginBottom: "-67px" }}>
@@ -158,7 +107,7 @@ const ManageAdmin = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  {manage_admin.loading ? (
+                  {customer.loading ? (
                     <div class="overlay">
                       <i class="fas fa-2x fa-sync-alt fa-spin"></i>
                     </div>
@@ -178,7 +127,7 @@ const ManageAdmin = () => {
           </div>
         </div>
       </section>
-      <AddAdminModal
+      {/* <AddAdminModal
         show={show}
         handleClose={() => setShow(false)}
         onSubmit={handleClose}
@@ -200,9 +149,9 @@ const ManageAdmin = () => {
         onSubmit={handleCloseDelete}
         adminDelete={adminDelete}
         setAdminDelete={setAdminDelete}
-      />
+      /> */}
     </Layout>
   );
 };
 
-export default ManageAdmin;
+export default Customer;

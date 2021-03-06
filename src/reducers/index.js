@@ -2,13 +2,16 @@ import { combineReducers } from "redux";
 import authReducer from "./AdminReducers/auth.reducers";
 import registerReducer from "./AdminReducers/register.reducers";
 import manageAdminReducer from "./AdminReducers/manage_admin.reducers";
-import settingAdminReducer from "./AdminReducers/settings.reducers"
+import settingAdminReducer from "./AdminReducers/settings.reducers";
+import customerReducer from "./CustomerReducers/manage_customer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
   manage_admin: manageAdminReducer,
-  setting_admin : settingAdminReducer,
+  setting_admin: settingAdminReducer,
+
+  customer: customerReducer,
   // category: categoryReducer,
   // product: productReducer,
   // order: orderReducer,

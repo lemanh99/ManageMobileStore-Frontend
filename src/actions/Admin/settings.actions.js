@@ -4,7 +4,7 @@ import { settingConstants } from "../constants";
 export const ChangeInformation = (data) => {
   return async (dispatch) => {
     dispatch({ type: settingConstants.CHANGE_INFORMATION_REQUEST });
-    const res = await axios.put(`admin/updateInfor`, { data });
+    const res = await axios.put(`admin/change-information`, { data });
     if (res.status === 201) {
       const { message, user } = res.data;
       dispatch({
@@ -34,7 +34,7 @@ export const ChangeInformation = (data) => {
 export const ChangePassword = (data) => {
   return async (dispatch) => {
     dispatch({ type: settingConstants.CHANGE_PASSWORD_REQUEST });
-    const res = await axios.put(`admin/updatePassword`, { data });
+    const res = await axios.put(`admin/change-password`, { data });
     if (res.status === 201) {
       const { message} = res.data;
       dispatch({

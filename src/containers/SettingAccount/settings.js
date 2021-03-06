@@ -15,10 +15,12 @@ const Settings = (props) => {
   const [email, setEmail] = useState(auth.user.email);
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
-  const [messChangeInfor, setMessChangeInfor] = useState("");
-  const [messChangePass, setMessChangePass] = useState("");
+  const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    setMessage("");
+  }, []);
 
   useEffect(() => {
     if (!setting.loading) {
@@ -35,7 +37,7 @@ const Settings = (props) => {
       lastName,
     };
     dispatch(ChangeInformation(infor));
-    setMessChangeInfor("Change Information Success!");
+    setMessage("Change Information Success!");
   };
   const ChangePass = (e) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ const Settings = (props) => {
       password,
     };
     dispatch(ChangePassword(pass));
-    setMessChangePass("Update Passsword Success");
+    setMessage("Update Passsword Success");
   };
   const validate = (e, type = 1) => {
     e.preventDefault();
@@ -55,13 +57,13 @@ const Settings = (props) => {
     switch (type) {
       case 1:
         if (value.length < 6) {
-          setMessChangePass("Input with a minimum length of 6 characters");
+          setMessage("Input with a minimum length of 6 characters");
           break;
         } else {
-          setMessChangePass("");
+          setMessage("");
         }
         if (repassword.length > 0 && repassword !== value) {
-          setMessChangePass("Entered Password is not matching!!");
+          setMessage("Entered Password is not matching!!");
           break;
         }
         if (repassword === value) {
@@ -71,11 +73,11 @@ const Settings = (props) => {
         break;
       case 2:
         if (password !== value) {
-          setMessChangePass("Entered Password is not matching!!");
+          setMessage("Entered Password is not matching!!");
           break;
         }
         if (password === value) {
-          setMessChangePass("Password matching!!");
+          setMessage("Password matching!!");
           break;
         }
     }
@@ -93,7 +95,7 @@ const Settings = (props) => {
                     id="custom-tabs-one-tab"
                     role="tablist"
                   >
-                    <li className="nav-item">
+                    <li className="nav-item" onClick={(e)=>{setMessage("")}}>
                       <a
                         className="nav-link active"
                         id="custom-tabs-one-home-tab"
@@ -106,7 +108,7 @@ const Settings = (props) => {
                         Change Infomation Account
                       </a>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item" onClick={(e)=>{setMessage("")}}>
                       <a
                         className="nav-link"
                         id="custom-tabs-one-profile-tab"
@@ -149,7 +151,7 @@ const Settings = (props) => {
                                   <div class="card-body">
                                     <Notification
                                       type="success"
-                                      message={messChangeInfor}
+                                      message={message}
                                     />
                                     <div class="form-group">
                                       <label>Email address</label>
@@ -228,18 +230,18 @@ const Settings = (props) => {
                                     onSubmit={ChangePass}
                                   >
                                     <div class="card-body">
-                                      {messChangePass ===
+                                      {message ===
                                         "Password matching!!" ||
-                                      messChangePass ===
+                                      message ===
                                         "Update Passsword Success" ? (
                                         <Notification
                                           type="success"
-                                          message={messChangePass}
+                                          message={message}
                                         />
                                       ) : (
                                         <Notification
                                           type="danger"
-                                          message={messChangePass}
+                                          message={message}
                                         />
                                       )}
                                       <div class="form-group">

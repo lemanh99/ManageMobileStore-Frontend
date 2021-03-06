@@ -4,14 +4,13 @@ import { manageAdminConstants } from "../constants";
 export const getListAdmin = () => {
   return async (dispatch) => {
     dispatch({ type: manageAdminConstants.GET_ALL_ADMIN_REQUEST });
-    const res = await axios.get(`admin/getListAdmin`);
-    // console.log(res);
+    const res = await axios.get(`admin/all-admin`);
     if (res.status === 200) {
-      const { admin } = res.data;
+      const { data } = res.data;
       dispatch({
         type: manageAdminConstants.GET_ALL_ADMIN_SUCCESS,
         payload: {
-          listAdmin: admin,
+          listAdmin: data,
         },
       });
     } else {
@@ -26,7 +25,8 @@ export const getListAdmin = () => {
 export const deleteAdminById = (id) => {
   return async (dispatch) => {
     dispatch({ type: manageAdminConstants.DELETE_ONE_ADMIN_REQUEST });
-    const res = await axios.delete(`admin/deleteAdmin`, { data: { id } });
+    const res = await axios.delete(`admin/delete-admin`, { data: { id } });
+    
     if (res.status === 202) {
       const { message } = res.data;
       dispatch(getListAdmin());

@@ -52,6 +52,10 @@ const ManageAdmin = () => {
     };
     dispatch(signup(user));
     setShow(false);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
     setMessage("Register a new admin successfully!")
   };
   const handleCloseDelete = () => {

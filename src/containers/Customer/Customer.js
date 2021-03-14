@@ -1,17 +1,33 @@
 import { MDBDataTable } from "mdbreact";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListCustomer } from "../../actions";
+import { blockCustomer, getListCustomer, register } from "../../actions";
 import Layout from "../../components/Layout";
 import Notification from "../../components/UI/Notification";
+import AddCustomerModal from "./components/AddCustomerModal";
+import DetailCustomerModal from "./components/DetailCustomerModal";
 
 const Customer = () => {
   const customer = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+
+  //entries
+  const [selected, setSelected] = useState(1);
+  const [search, setSearch] = useState("");
+
   const [listCustomer, setListCustomer] = useState([]);
+  const [user, setUser] = useState({});
   const [message, setMessage] = useState("");
-  const [handleShow, setHandleShow] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     if (!customer.loading) {
@@ -22,6 +38,68 @@ const Customer = () => {
     setListCustomer(customer.listCustomer);
   }, [customer.listCustomer]);
 
+  useEffect(() => {
+    setMessage(customer.messages);
+  });
+
+  //Handle show modal
+  const handleShow = (event) => {
+    const id = event.target.value;
+    const user = customer.listCustomer.find((customer) => customer._id === id);
+    setUser(user);
+    setShow(true);
+  };
+  const handleShowAdd = () => {
+    setShowAdd(true);
+  };
+  const handleCloseAdd = () => {
+    const customer = {
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      phoneNumber,
+      address,
+    };
+    dispatch(register(customer));
+    setShow(false);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    // setMessage("Register a new customer successfully!");
+    setShowAdd(false);
+  };
+  //selected
+  const searchList = (event) => {
+    const value = event.target.value;
+    let check = null;
+    setSearch(value);
+    switch (selected) {
+      case "1":
+        check = customer.listCustomer.find(
+          (listCustomer) => listCustomer.username === value
+        );
+        break;
+      case "2":
+        check = customer.listCustomer.find(
+          (listCustomer) => listCustomer.email === value
+        );
+        break;
+      case "3":
+        check = customer.listCustomer.find(
+          (listCustomer) => listCustomer.fullName === value
+        );
+        break;
+    }
+    check
+      ? setListCustomer([check])
+      : value === ""
+      ? setListCustomer(customer.listCustomer)
+      : setListCustomer([]);
+  };
+  //row table
   const rowTable = (customers) => {
     const all = [];
     for (let [index, customer] of customers.entries()) {
@@ -30,14 +108,42 @@ const Customer = () => {
         username: customer.username,
         email: customer.email,
         fullName: customer.fullName,
-        btnButton: (
-          <div style={{textAlign:"center"}}>
-            <button type="button" class="btn btn-default " style={{ marginRight:"4px"}}>
-               Detail
+        btnView: (
+          <div style={{ textAlign: "center" }}>
+            <button
+              type="button"
+              class="btn btn-warning "
+              value={customer._id}
+              style={{ marginRight: "4px" }}
+              onClick={handleShow}
+            >
+              Detail
             </button>
-            <button type="button" class="btn btn-default">
-               Block
-            </button>
+          </div>
+        ),
+        btnLock: (
+          <div style={{ textAlign: "center" }}>
+            {customer.status === "active" ? (
+              <button
+                type="button"
+                class="btn btn-dark"
+                onClick={() => {
+                  dispatch(blockCustomer(customer._id));
+                }}
+              >
+                Lock
+              </button>
+            ) : (
+              <button
+                type="button"
+                class="btn btn-success"
+                onClick={() => {
+                  dispatch(blockCustomer(customer._id));
+                }}
+              >
+                Unlock
+              </button>
+            )}
           </div>
         ),
         //   a
@@ -74,14 +180,19 @@ const Customer = () => {
       },
       {
         label: "",
-        field: "btnButton",
+        field: "btnView",
         sort: "asc",
-        width: 100,
+        width: 50,
+      },
+      {
+        label: "",
+        field: "btnLock",
+        sort: "asc",
+        width: 50,
       },
     ],
     rows: rowTable(listCustomer),
   };
-
   return (
     <Layout title="Manage customer">
       <section className="content">
@@ -93,7 +204,7 @@ const Customer = () => {
                   <div class="card-title">
                     <button
                       className="btn btn-block bg-gradient-primary"
-                      onClick={handleShow}
+                      onClick={handleShowAdd}
                     >
                       New A Customer
                     </button>
@@ -102,47 +213,104 @@ const Customer = () => {
                 <div className="row justify-content-center">
                   <div style={{ marginTop: "5px", marginBottom: "-67px" }}>
                     {message !== "" ? (
-                      <Notification type="success" message={message} />
+                      customer.error !== "" ? (
+                        <Notification type="danger" message={message} />
+                      ) : (
+                        <Notification type="success" message={message} />
+                      )
                     ) : null}
                   </div>
                 </div>
-                <div className="card-body">
-                  {customer.loading ? (
-                    <div class="overlay">
-                      <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                <div className="row" style={{ marginBottom: "-80px" }}>
+                  <div className="col-lg-12">
+                    <div className="" style={{ float: "right" }}>
+                      <div className="card-body">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <select
+                              className="form-control "
+                              value={selected}
+                              style={{ backgroundColor: "#e9ecef" }}
+                              onChange={(e) => (
+                                setSelected(e.target.value), setSearch("")
+                              )}
+                            >
+                              <option value="1">Username</option>
+                              <option value="2">Email</option>
+                              <option value="3">Full Name</option>
+                            </select>
+                          </div>
+
+                          <div class="input-group-append">
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Search"
+                              value={search}
+                              onChange={(e) => {
+                                searchList(e);
+                              }}
+                            ></input>
+                          </div>
+                          <div className="input-group-append">
+                            <button className="input-group-text" type="submit">
+                              <i className="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="card-body">
                     <MDBDataTable
-                      className=""
+                      entries={5}
                       entriesOptions={[5, 10, 15, 20, 25, 50]}
+                      searching={false}
                       striped
                       bordered
+                      hover
+                      // barReverse
                       noBottomColumns
                       data={data}
                     />
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* <AddAdminModal
+      <DetailCustomerModal
         show={show}
         handleClose={() => setShow(false)}
-        onSubmit={handleClose}
-        modalTitle={"Add New Admin"}
+        modalTitle={"Detail Customer"}
+        user={user}
+      />
+
+      <AddCustomerModal
+        show={showAdd}
+        handleClose={() => setShowAdd(false)}
+        onSubmit={handleCloseAdd}
+        modalTitle={"Add New Customer"}
         firstName={firstName}
         setFirstName={setFirstName}
         lastName={lastName}
         setLastName={setLastName}
         email={email}
         setEmail={setEmail}
+        username={username}
+        setUsername={setUsername}
         password={password}
         setPassword={setPassword}
-        listAdmin={listAdmin}
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+        address={address}
+        setAddress={setAddress}
+        listCustomer={listCustomer}
       />
-      <DeleteAdminModal
+      {/* <DeleteAdminModal
         show={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         modalTitle={"Delete Admin"}

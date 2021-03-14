@@ -43,13 +43,19 @@ const Sidebar = (props) => {
             <li className="nav-item">
               <NavLink to={`/manage-admin`} className="nav-link">
                 <i className="nav-icon fas fa-tachometer-alt"></i>
-                <p>ManageAdmin</p>
+                <p>Admin</p>
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink to={`/manage-customer`} className="nav-link">
                 <i className="nav-icon fas fa-users"></i>
                 <p>Customer</p>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to={`/manage-category`} className="nav-link">
+                <i className="nav-icon fas fa-plus-square"></i>
+                <p>Category</p>
               </NavLink>
             </li>
             <li className="nav-item has-treeview">
@@ -71,29 +77,6 @@ const Sidebar = (props) => {
                   <a href="{{url_for('addbrand')}}" className="nav-link">
                     <i className="far fa-circle nav-icon"></i>
                     <p>Add Brand</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item has-treeview">
-              <a href="#" className="nav-link">
-                <i className="nav-icon far fa-plus-square"></i>
-                <p>
-                  Category
-                  <i className="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="{{url_for('categories')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Category Manager</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="{{url_for('addcat')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Add Category</p>
                   </a>
                 </li>
               </ul>

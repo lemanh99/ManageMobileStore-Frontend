@@ -240,7 +240,6 @@ const Customer = () => {
                               <option value="3">Full Name</option>
                             </select>
                           </div>
-
                           <div class="input-group-append">
                             <input
                               type="text"

@@ -1,7 +1,7 @@
-import { categoryConstants } from "../../actions/constants";
+import { brandConstants } from "../../actions/constants";
 
 const initState = {
-  listCategory: [],
+  listBrand: [],
   loading: false,
   error: "",
   messages: "",
@@ -9,40 +9,40 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case categoryConstants.GET_ALL_CATEGORY_REQUEST:
+    case brandConstants.GET_ALL_BRAND_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case categoryConstants.GET_ALL_CATEGORY_SUCCESS:
+    case brandConstants.GET_ALL_BRAND_SUCCESS:
       state = {
         ...initState,
         loading: false,
-        listCategory: action.payload.listCategory,
+        listBrand: action.payload.listBrand,
       };
       break;
-    case categoryConstants.GET_ALL_CATEGORY_FAILURE:
+    case brandConstants.GET_ALL_BRAND_FAILURE:
       state = {
         ...state,
         loading: false,
         error: action.payload.error,
       };
       break;
-    case categoryConstants.ADD_CATEGORY_REQUEST:
+    case brandConstants.ADD_BRAND_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case categoryConstants.ADD_CATEGORY_SUCCESS:
+    case brandConstants.ADD_BRAND_SUCCESS:
       state = {
         ...state,
         messages: action.payload.message,
         loading: false,
       };
       break;
-    case categoryConstants.ADD_CATEGORY_FAILURE:
+    case brandConstants.ADD_BRAND_FAILURE:
       state = {
         ...state,
         loading: false,
@@ -50,20 +50,20 @@ export default (state = initState, action) => {
         error: action.payload.error,
       };
       break;
-    case categoryConstants.UPDATE_CATEGORY_REQUEST:
+    case brandConstants.UPDATE_BRAND_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case categoryConstants.UPDATE_CATEGORY_SUCCESS:
+    case brandConstants.UPDATE_BRAND_SUCCESS:
       state = {
         ...state,
         loading: false,
-        messages: "Update category successfully",
+        messages: "Update BRAND successfully",
       };
       break;
-    case categoryConstants.UPDATE_CATEGORY_FAILURE:
+    case brandConstants.UPDATE_BRAND_FAILURE:
       state = {
         ...state,
         loading: false,
@@ -71,19 +71,19 @@ export default (state = initState, action) => {
         error: action.payload.error,
       };
       break;
-    case categoryConstants.DELETE_CATEGORY_REQUEST:
+    case brandConstants.DELETE_BRAND_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case categoryConstants.DELETE_CATEGORY_SUCCESS:
+    case brandConstants.DELETE_BRAND_SUCCESS:
       state = {
         ...state,
         loading: false,
       };
       break;
-    case categoryConstants.DELETE_CATEGORY_FAILURE:
+    case brandConstants.DELETE_BRAND_FAILURE:
       state = {
         ...state,
         loading: false,

@@ -4,7 +4,6 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const Sidebar = (props) => {
   const auth = useSelector((state) => state.auth);
-  const location = useLocation();
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <NavLink to={"/"} className="brand-link">
@@ -58,28 +57,11 @@ const Sidebar = (props) => {
                 <p>Category</p>
               </NavLink>
             </li>
-            <li className="nav-item has-treeview">
-              <a href="#" className="nav-link">
+            <li className="nav-item">
+              <NavLink to={`/manage-brand`} className="nav-link">
                 <i className="nav-icon fas fa-table"></i>
-                <p>
-                  Brands
-                  <i className="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="{{url_for('brands')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Brand Manager</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="{{url_for('addbrand')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Add Brand</p>
-                  </a>
-                </li>
-              </ul>
+                <p>Brand</p>
+              </NavLink>
             </li>
             <li className="nav-item has-treeview">
               <a href="{{url_for('product')}}" className="nav-link">

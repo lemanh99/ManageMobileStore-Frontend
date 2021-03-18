@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NewModal from "../../../components/UI/Modal";
 import Notification from "../../../components/UI/Notification";
+import { generatePublicUrl } from "../../../urlConfig";
 
-const AddCategoryModal = (props) => {
+const EditCategoryModal = (props) => {
   const [message, setMessage] = useState("");
+  const [change, setChange] = useState(false);
 
   useEffect(() => {
     setMessage("");
@@ -15,24 +17,25 @@ const AddCategoryModal = (props) => {
     onSubmit,
     name,
     setName,
-    listCategory,
-    // handleCategoryImage,
     categoryImage,
     setCategoryImage,
+    listCategory,
   } = props;
+  console.log(categoryImage);
   const check = (value) => {
-    console.log(value);
     const checkName = listCategory.find(
       (listCategory) => listCategory.name === value
     );
     checkName ? setMessage("Name already exists") : setMessage("");
   };
   const changeImage = (event) => {
-    document.getElementById("img").src = window.URL.createObjectURL(
+    setCategoryImage(event.target.files[0]);
+    document.getElementById("img-change").src = window.URL.createObjectURL(
       event.target.files[0]
     );
-    setCategoryImage(event.target.files[0]);
+    setChange(true);
   };
+
   return (
     <NewModal
       show={show}
@@ -60,20 +63,24 @@ const AddCategoryModal = (props) => {
 
         <div class="form-group">
           <label for="customFile">Image</label>
-          {/* {categoryImage.name ? (
-
-          ) : (<img id="img"/>)} */}
           <div className="row" style={{ marginBottom: "5px" }}>
             <img
-              id="img"
+              id="img-change"
+              alt=""
               src=""
-              width={categoryImage.name ? "100" : null}
-              height={categoryImage.name ? "100" : null}
+              width={change ? "100" : null}
+              height={change ? "100" : null}
             />
+            {!change ? (
+              <img
+                id="img"
+                alt={categoryImage}
+                src={generatePublicUrl(categoryImage)}
+                width="100"
+                height="100"
+              />
+            ) : null}
           </div>
-          {/* <div className="row" style={{ marginBottom: "5px" }}>
-            <img id="img" width="100" height="100" />
-          </div> */}
           <div className="custom-file">
             <input
               type="file"
@@ -92,4 +99,4 @@ const AddCategoryModal = (props) => {
   );
 };
 
-export default AddCategoryModal;
+export default EditCategoryModal;

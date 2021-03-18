@@ -5,6 +5,7 @@ import { isAdminLoggedIn } from "./actions";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 import Customer from "./containers/Customer/Customer";
 import Category from "./containers/Category/Category";
+import Brand from "./containers/Brand/Brand";
 import ErrorPage from "./containers/ErrorPage";
 import Home from "./containers/Home";
 import ManageAdmin from "./containers/ManageAdmin/manage_admin";
@@ -32,6 +33,8 @@ function App() {
         <PrivateRoute path="/manage-customer" component={Customer} />
         {/* Manage Category */}
         <PrivateRoute path="/manage-category" component={Category} />
+        {/* Manage Brand */}
+        <PrivateRoute path="/manage-brand" component={Brand} />
 
         {/* setting account */}
         <PrivateRoute path="/settings" component={Settings} />

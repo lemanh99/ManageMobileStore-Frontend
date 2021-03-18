@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NewModal from "../../../components/UI/Modal";
 import Notification from "../../../components/UI/Notification";
+import { generatePublicUrl } from "../../../urlConfig";
 
-const AddCategoryModal = (props) => {
+const EditBrandModal = (props) => {
   const [message, setMessage] = useState("");
+  const [change, setChange] = useState(false);
 
   useEffect(() => {
     setMessage("");
@@ -15,24 +17,26 @@ const AddCategoryModal = (props) => {
     onSubmit,
     name,
     setName,
+    categoryId,
+    setCategoryId,
+    listBrand,
     listCategory,
-    // handleCategoryImage,
-    categoryImage,
-    setCategoryImage,
+    brandImage,
+    setBrandImage,
   } = props;
+  console.log(brandImage);
   const check = (value) => {
-    console.log(value);
-    const checkName = listCategory.find(
-      (listCategory) => listCategory.name === value
-    );
+    const checkName = listBrand.find((listBrand) => listBrand.name === value);
     checkName ? setMessage("Name already exists") : setMessage("");
   };
   const changeImage = (event) => {
-    document.getElementById("img").src = window.URL.createObjectURL(
+    setBrandImage(event.target.files[0]);
+    document.getElementById("img-change").src = window.URL.createObjectURL(
       event.target.files[0]
     );
-    setCategoryImage(event.target.files[0]);
+    setChange(true);
   };
+
   return (
     <NewModal
       show={show}
@@ -57,23 +61,43 @@ const AddCategoryModal = (props) => {
             required
           />
         </div>
-
+        <div className="form-group">
+          <label>Category</label>
+          <select
+            name="category"
+            id="category"
+            value={categoryId}
+            className="form-control"
+            required
+            onChange={(e) => setCategoryId(e.target.value)}
+          >
+            {listCategory
+              ? listCategory.map((category) => (
+                  <option value={category._id}>{category.name}</option>
+                ))
+              : null}
+          </select>
+        </div>
         <div class="form-group">
           <label for="customFile">Image</label>
-          {/* {categoryImage.name ? (
-
-          ) : (<img id="img"/>)} */}
           <div className="row" style={{ marginBottom: "5px" }}>
             <img
-              id="img"
+              id="img-change"
+              alt=""
               src=""
-              width={categoryImage.name ? "100" : null}
-              height={categoryImage.name ? "100" : null}
+              width={change ? "100" : null}
+              height={change ? "100" : null}
             />
+            {!change ? (
+              <img
+                id="img"
+                alt={brandImage}
+                src={generatePublicUrl(brandImage)}
+                width="100"
+                height="100"
+              />
+            ) : null}
           </div>
-          {/* <div className="row" style={{ marginBottom: "5px" }}>
-            <img id="img" width="100" height="100" />
-          </div> */}
           <div className="custom-file">
             <input
               type="file"
@@ -83,7 +107,7 @@ const AddCategoryModal = (props) => {
               onChange={changeImage}
             />
             <label className="custom-file-label" for="customFile">
-              {categoryImage.name ? categoryImage.name : "Choose file"}
+              {brandImage.name ? brandImage.name : "Choose file"}
             </label>
           </div>
         </div>
@@ -92,4 +116,4 @@ const AddCategoryModal = (props) => {
   );
 };
 
-export default AddCategoryModal;
+export default EditBrandModal;

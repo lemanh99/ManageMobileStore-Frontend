@@ -4,37 +4,40 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addCatgeory,
   deleteCategory,
-  getListCatergory,
+  getListCategory,
+  updateCategory,
 } from "../../actions/Category/category.action";
 import Layout from "../../components/Layout";
 import Notification from "../../components/UI/Notification";
 import { generatePublicUrl } from "../../urlConfig";
 import AddCategoryModal from "./components/AddCategoryModal";
 import DeleteCategoryModal from "./components/DeleteCategoryModal";
+import EditCategoryModal from "./components/EditCategoryModal";
 
 const Category = () => {
-  const category = useSelector((state) => state.category);
+  const categories = useSelector((state) => state.category);
 
   const [name, setName] = useState("");
   const [categoryImage, setCategoryImage] = useState("");
-  const [categoryDelete, setCategoryDelete] = useState({});
+  const [category, setCategory] = useState({});
   const [listCategory, setListCatergory] = useState([]);
   const [message, setMessage] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!category.loading) {
-      dispatch(getListCatergory());
+    if (!categories.loading) {
+      dispatch(getListCategory());
     }
   }, []);
   useEffect(() => {
-    setMessage(category.messages);
+    setMessage(categories.messages);
   });
   useEffect(() => {
-    setListCatergory(category.listCategory);
-  }, [category.listCategory]);
+    setListCatergory(categories.listCategory);
+  }, [categories.listCategory]);
   //show Modal
 
   const handleShowAdd = () => {
@@ -44,7 +47,6 @@ const Category = () => {
   };
   const handleCloseAdd = () => {
     const form = new FormData();
-    console.log(categoryImage);
     form.append("name", name);
     form.append("categoryImage", categoryImage);
     dispatch(addCatgeory(form));
@@ -55,24 +57,43 @@ const Category = () => {
 
   const handleShowDelete = (event) => {
     const id = event.target.value;
-    const cat = category.listCategory.find(
-      (category) => category._id === id
-    );
-    setCategoryDelete(cat);
+    const cat = categories.listCategory.find((category) => category._id === id);
+    setCategory(cat);
     setShowDeleteModal(true);
   };
 
   const handleCloseDelete = () => {
-    dispatch(deleteCategory(categoryDelete._id));
-    setCategoryDelete({});
+    dispatch(deleteCategory(category._id));
+    setCategory({});
     setShowDeleteModal(false);
     setMessage("Delete Successfully!");
   };
-
-  const handleCategoryImage = (e) => {
-    setCategoryImage(e.target.files[0]);
-    console.log(e.target.files[0]);
+  const handleShowEdit = (event) => {
+    const id = event.target.value;
+    const cat = categories.listCategory.find((category) => category._id === id);
+    setCategory(cat);
+    setName(cat.name);
+    setCategoryImage(cat.categoryImage);
+    setShowEditModal(true);
   };
+
+  const handleCloseEdit = () => {
+    const form = new FormData();
+    form.append("_id", category._id);
+    form.append("name", name);
+    form.append("categoryImage", categoryImage);
+    console.log(category._id, name, categoryImage);
+    dispatch(updateCategory(form));
+    setCategory({});
+    setName("");
+    setCategoryImage("");
+    setShowEditModal(false);
+    setMessage("Edit Successfully!");
+  };
+
+  // const handleCategoryImage = (e) => {
+  //   setCategoryImage(e.target.files[0]);
+  // };
 
   //row table
   const rowTable = (categories) => {
@@ -96,7 +117,7 @@ const Category = () => {
               className="btn btn-warning "
               value={category._id}
               style={{ marginRight: "4px" }}
-              // onClick={handleShow}
+              onClick={handleShowEdit}
             >
               Edit
             </button>
@@ -176,7 +197,7 @@ const Category = () => {
                 <div className="row justify-content-center">
                   <div style={{ marginTop: "5px", marginBottom: "-67px" }}>
                     {message !== "" ? (
-                      category.error !== "" ? (
+                      categories.error !== "" ? (
                         <Notification type="danger" message={message} />
                       ) : (
                         <Notification type="success" message={message} />
@@ -215,14 +236,33 @@ const Category = () => {
         setName={setName}
         listCategory={listCategory}
         categoryImage={categoryImage}
-        handleCategoryImage={handleCategoryImage}
+        setCategoryImage={setCategoryImage}
+        // handleCategoryImage={handleCategoryImage}
       />
       <DeleteCategoryModal
         show={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
+        handleClose={() => {
+          setShowDeleteModal(false);
+          setCategory({});
+        }}
         modalTitle={"Delete Category"}
         onSubmit={handleCloseDelete}
-        categoryDelete={categoryDelete}
+        categoryDelete={category}
+      />
+      <EditCategoryModal
+        show={showEditModal}
+        handleClose={() => {
+          setShowEditModal(false);
+          setCategory({});
+        }}
+        onSubmit={handleCloseEdit}
+        modalTitle={"Edit Category"}
+        name={name}
+        setName={setName}
+        categoryImage={categoryImage}
+        setCategoryImage={setCategoryImage}
+        listCategory={listCategory}
+        s
       />
     </Layout>
   );

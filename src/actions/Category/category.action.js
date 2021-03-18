@@ -1,7 +1,7 @@
 import axios from "../../helpers/axios";
 import { categoryConstants } from "../constants";
 
-export const getListCatergory = () => {
+export const getListCategory = () => {
   return async (dispatch) => {
     dispatch({ type: categoryConstants.GET_ALL_CATEGORY_REQUEST });
     const res = await axios.get(`/category/all`);
@@ -30,7 +30,7 @@ export const addCatgeory = (form) => {
     const res = await axios.post(`/category/create`, form);
 
     if (res.status === 201) {
-      dispatch(getListCatergory());
+      dispatch(getListCategory());
       const { message } = res.data;
       dispatch({
         type: categoryConstants.ADD_CATEGORY_SUCCESS,
@@ -52,7 +52,7 @@ export const deleteCategory = (id) => {
     const res = await axios.delete(`/category/delete`, { data: { id } });
     if (res.status === 202) {
       const { message } = res.data;
-      dispatch(getListCatergory());
+      dispatch(getListCategory());
       dispatch({
         type: categoryConstants.DELETE_CATEGORY_SUCCESS,
         payload: { message: message, error: "" },
@@ -61,6 +61,28 @@ export const deleteCategory = (id) => {
       const { error } = res.data;
       dispatch({
         type: categoryConstants.DELETE_CATEGORY_FAILURE,
+        payload: { message: "", error: error },
+      });
+    }
+  };
+};
+
+export const updateCategory = (form) => {
+  return async (dispatch) => {
+    dispatch({ type: categoryConstants.UPDATE_CATEGORY_REQUEST });
+    const res = await axios.post(`/category/update`, form );
+
+    if (res.status === 201) {
+      const { message } = res.data;
+      dispatch({
+        type: categoryConstants.UPDATE_CATEGORY_SUCCESS,
+        payload: { message: message, error: "" },
+      });
+      dispatch(getListCategory());
+    } else {
+      const { error } = res.data;
+      dispatch({
+        type: categoryConstants.UPDATE_CATEGORY_FAILURE,
         payload: { message: "", error: error },
       });
     }

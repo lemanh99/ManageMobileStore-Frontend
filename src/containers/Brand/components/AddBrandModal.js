@@ -28,13 +28,9 @@ const AddBrandModal = (props) => {
     const checkName = listBrand.find((listBrand) => listBrand.name === value);
     checkName ? setMessage("Name already exists") : setMessage("");
   };
-  const changeImage = (event) => {
-    document.getElementById("img").src = window.URL.createObjectURL(
-      event.target.files[0]
-    );
+  const handleAddImage = (event) => {
     setBrandImage(event.target.files[0]);
   };
-  console.log(categoryId);
   return (
     <NewModal
       show={show}
@@ -81,12 +77,14 @@ const AddBrandModal = (props) => {
         <div class="form-group">
           <label for="customFile">Image</label>
           <div className="row" style={{ marginBottom: "5px" }}>
-            <img
-              id="img"
-              src=""
-              width={brandImage.name ? "100" : null}
-              height={brandImage.name ? "100" : null}
-            />
+            {brandImage ? (
+              <img
+                id={brandImage.name}
+                src={window.URL.createObjectURL(brandImage)}
+                width="100"
+                height="100"
+              />
+            ) : null}
           </div>
           <div className="custom-file">
             <input
@@ -94,7 +92,7 @@ const AddBrandModal = (props) => {
               className="custom-file-input"
               id="customFile"
               accept="image/png, image/jpeg"
-              onChange={changeImage}
+              onChange={handleAddImage}
             />
             <label className="custom-file-label" for="customFile">
               {brandImage.name ? brandImage.name : "Choose file"}

@@ -20,7 +20,7 @@ const Customer = () => {
   const [address, setAddress] = useState("");
 
   //entries
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState("1");
   const [search, setSearch] = useState("");
 
   const [listCustomer, setListCustomer] = useState([]);
@@ -74,30 +74,26 @@ const Customer = () => {
   //selected
   const searchList = (event) => {
     const value = event.target.value;
-    let check = null;
+    let lst = null;
     setSearch(value);
     switch (selected) {
       case "1":
-        check = customer.listCustomer.find(
-          (listCustomer) => listCustomer.username === value
+        lst = customer.listCustomer.filter((customer) =>
+          customer.username.toLowerCase().includes(value.toLowerCase())
         );
         break;
       case "2":
-        check = customer.listCustomer.find(
-          (listCustomer) => listCustomer.email === value
+        lst = customer.listCustomer.filter((customer) =>
+          customer.email.toLowerCase().includes(value.toLowerCase())
         );
         break;
       case "3":
-        check = customer.listCustomer.find(
-          (listCustomer) => listCustomer.fullName === value
+        lst = customer.listCustomer.filter((customer) =>
+          customer.fullName.toLowerCase().includes(value.toLowerCase())
         );
         break;
     }
-    check
-      ? setListCustomer([check])
-      : value === ""
-      ? setListCustomer(customer.listCustomer)
-      : setListCustomer([]);
+    setListCustomer(lst);
   };
   //row table
   const rowTable = (customers) => {

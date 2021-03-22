@@ -25,20 +25,6 @@ const AddCustomerModal = (props) => {
     setAddress,
     listCustomer,
   } = props;
-  // const checkEmail = (value) => {
-  //   const checkEmail = listCustomer.find(
-  //     (listCustomer) => listCustomer.email === value
-  //   );
-  //   checkEmail ? setMessage("Account already exists") : setMessage("");
-  // };
-  // const checkUsername = (value) => {
-  //   const check = listCustomer.find(
-  //     (listCustomer) => listCustomer.username === value
-  //   );
-  //   if (message !== "Account already exists") {
-  //     check ? setMessage("Username already exists") : setMessage("");
-  //   }
-  // };
 
   const check = (value, type) => {
     switch (type) {

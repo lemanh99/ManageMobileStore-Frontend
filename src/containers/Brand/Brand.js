@@ -31,7 +31,7 @@ const Brand = () => {
   const [showEditModal, setShowEditModal] = useState(false);
 
   //entries
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState("");
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
@@ -109,44 +109,27 @@ const Brand = () => {
     const value = event.target.value;
     setSelected(value);
     if (value) {
-      const list = brands.listBrand.find((brand) => brand.categoryId === value);
-      setListBrand([list]);
+      const list = brands.listBrand.filter(
+        (brand) => brand.categoryId === value
+      );
+      list ? setListBrand(list) : setListBrand([]);
     } else {
       setListBrand(brands.listBrand);
     }
+    setSearch("");
   };
   //selected
   const searchList = (event) => {
     const value = event.target.value;
-    setSelected(value);
-    if (value) {
-      console.log("nahy day", value);
-    }
-    console.log(selected);
-    //   let check = null;
-    //   setSearch(value);
-    //   switch (selected) {
-    //     case "1":
-    //       check = customer.listCustomer.find(
-    //         (listCustomer) => listCustomer.username === value
-    //       );
-    //       break;
-    //     case "2":
-    //       check = customer.listCustomer.find(
-    //         (listCustomer) => listCustomer.email === value
-    //       );
-    //       break;
-    //     case "3":
-    //       check = customer.listCustomer.find(
-    //         (listCustomer) => listCustomer.fullName === value
-    //       );
-    //       break;
-    //   }
-    //   check
-    //     ? setListCustomer([check])
-    //     : value === ""
-    //     ? setListCustomer(customer.listCustomer)
-    //     : setListCustomer([]);
+    setSearch(value);
+    let listSearch;
+    listSearch = brands.listBrand.filter((brand) =>
+      selected
+        ? brand.categoryId === selected &&
+          brand.name.toLowerCase().includes(value.toLowerCase())
+        : brand.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setListBrand(listSearch);
   };
 
   //row table

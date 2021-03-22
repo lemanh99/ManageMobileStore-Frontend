@@ -1,8 +1,15 @@
 import React from "react";
 import NewModal from "../../../components/UI/Modal";
 
-const DeleteBrandModal = (props) => {
-  const { show, handleClose, onSubmit, brandDelete } = props;
+const DeleteAdminModal = (props) => {
+  const {
+    show,
+    handleClose,
+    modalTitle,
+    onSubmit,
+    adminDelete,
+    setAdminDelete,
+  } = props;
   const buttons = [
     {
       label: "No",
@@ -24,10 +31,10 @@ const DeleteBrandModal = (props) => {
       buttons={buttons}
     >
       <span className="text-danger">
-        Are you sure delete brand: {brandDelete.name}
+        Are you sure delete the account admin: {adminDelete.email}
       </span>
     </NewModal>
   );
 };
 
-export default DeleteBrandModal;
+export default DeleteAdminModal;

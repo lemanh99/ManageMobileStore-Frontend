@@ -63,28 +63,11 @@ const Sidebar = (props) => {
                 <p>Brand</p>
               </NavLink>
             </li>
-            <li className="nav-item has-treeview">
-              <a href="{{url_for('product')}}" className="nav-link">
+            <li className="nav-item">
+              <NavLink to={`/manage-product`} className="nav-link">
                 <i className="nav-icon fas fa-barcode"></i>
-                <p>
-                  Product
-                  <i className="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="{{url_for('product')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Product Manager</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="{{url_for('addproduct')}}" className="nav-link">
-                    <i className="far fa-circle nav-icon"></i>
-                    <p>Add Product</p>
-                  </a>
-                </li>
-              </ul>
+                <p>Product</p>
+              </NavLink>
             </li>
             <li className="nav-item">
               <a href="{{ url_for('orders_manager')}}" className="nav-link">

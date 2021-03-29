@@ -52,7 +52,7 @@ export const register = (user) => {
 export const blockCustomer = (id) => {
   return async (dispatch) => {
     dispatch({ type: customerConstants.CUSTOMER_BLOCK_REQUEST });
-    const res = await axios.put(`/customer/status`, { id });
+    const res = await axios.put(`/customer/${id}/status`);
 
     if (res.status === 201) {
       const { message } = res.data;

@@ -1,20 +1,20 @@
 import axios from "../../helpers/axios";
-import { settingConstants } from "../constants";
+import { adminConstants } from "../constants";
 
 export const ChangeInformation = (data) => {
   return async (dispatch) => {
-    dispatch({ type: settingConstants.CHANGE_INFORMATION_REQUEST });
-    const res = await axios.put(`admin/change-information`, { data });
+    dispatch({ type: adminConstants.CHANGE_INFORMATION_REQUEST });
+    const res = await axios.put(`admin/${data.id}/change-information`, { data });
     if (res.status === 201) {
       const { message, user } = res.data;
       dispatch({
-        type: settingConstants.CHANGE_INFORMATION_SUCCESS,
+        type: adminConstants.CHANGE_INFORMATION_SUCCESS,
         payload: {
           message: message,
         },
       });
       dispatch({
-        type: settingConstants.UPDATE_INFORMATION_SUCCESS,
+        type: adminConstants.UPDATE_INFORMATION_SUCCESS,
         payload: {
           user: user,
         }
@@ -22,7 +22,7 @@ export const ChangeInformation = (data) => {
     } else {
       const { error } = res.data;
       dispatch({
-        type: settingConstants.CHANGE_INFORMATION_FAILURE,
+        type: adminConstants.CHANGE_INFORMATION_FAILURE,
         payload: {
           error: error,
         },
@@ -33,12 +33,12 @@ export const ChangeInformation = (data) => {
 
 export const ChangePassword = (data) => {
   return async (dispatch) => {
-    dispatch({ type: settingConstants.CHANGE_PASSWORD_REQUEST });
-    const res = await axios.put(`admin/change-password`, { data });
+    dispatch({ type: adminConstants.CHANGE_PASSWORD_REQUEST });
+    const res = await axios.put(`admin/${data.id}/change-password`, { data });
     if (res.status === 201) {
       const { message} = res.data;
       dispatch({
-        type: settingConstants.CHANGE_PASSWORD_SUCCESS,
+        type: adminConstants.CHANGE_PASSWORD_SUCCESS,
         payload: {
           message: message,
         },
@@ -46,7 +46,7 @@ export const ChangePassword = (data) => {
     } else {
       const { error } = res.data;
       dispatch({
-        type: settingConstants.CHANGE_PASSWORD_FAILURE,
+        type: adminConstants.CHANGE_PASSWORD_FAILURE,
         payload: {
           error: error,
         },

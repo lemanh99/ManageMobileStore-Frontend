@@ -93,7 +93,7 @@ const Brand = () => {
 
   const handleCloseEdit = () => {
     const form = new FormData();
-    form.append("_id", brand._id);
+    form.append("id", brand._id);
     form.append("name", name);
     form.append("categoryId", categoryId);
     form.append("brandImage", brandImage);

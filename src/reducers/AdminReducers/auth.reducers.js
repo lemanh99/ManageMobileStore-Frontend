@@ -1,7 +1,6 @@
 import {
-  loginConstants,
-  logoutConstants,
-  settingConstants,
+  authConstants,
+  adminConstants,
 } from "../../actions/constants";
 
 const initState = {
@@ -21,16 +20,18 @@ const initState = {
   message: "",
 };
 
+
+
 export default (state = initState, action) => {
   console.log(action.type);
   switch (action.type) {
-    case loginConstants.LOGIN_REQUEST:
+    case authConstants.LOGIN_REQUEST:
       state = {
         ...state,
         authenticating: true,
       };
       break;
-    case loginConstants.LOGIN_SUCCESS:
+    case authConstants.LOGIN_SUCCESS:
       state = {
         ...state,
         user: action.payload.user,
@@ -40,14 +41,14 @@ export default (state = initState, action) => {
         authenticating: false,
       };
       break;
-    case loginConstants.LOGIN_FAILURE:
+    case authConstants.LOGIN_FAILURE:
       state = {
-        ...state,
+        ...initState,
         error: action.payload.error,
         loading: false,
       };
       break;
-    case settingConstants.UPDATE_INFORMATION_SUCCESS:
+    case adminConstants.UPDATE_INFORMATION_SUCCESS:
       state = {
         ...state,
         message: "",
@@ -57,20 +58,20 @@ export default (state = initState, action) => {
       };
       break;
 
-    case logoutConstants.LOGOUT_REQUEST:
+    case authConstants.LOGOUT_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case logoutConstants.LOGOUT_SUCCESS:
+    case authConstants.LOGOUT_SUCCESS:
       state = {
         ...initState,
         message: "Logout Success",
       };
 
       break;
-    case logoutConstants.LOGOUT_FAILURE:
+    case authConstants.LOGOUT_FAILURE:
       state = {
         ...state,
         error: action.payload.error,

@@ -1,4 +1,4 @@
-import { settingConstants } from "../../actions/constants";
+import { adminConstants } from "../../actions/constants";
 
 const initState = {
   error: "",
@@ -7,23 +7,25 @@ const initState = {
   loading: false,
 };
 
+
+
 export default (state = initState, action) => {
   console.log(action.type);
   switch (action.type) {
-    case settingConstants.CHANGE_INFORMATION_REQUEST:
+    case adminConstants.CHANGE_INFORMATION_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case settingConstants.CHANGE_INFORMATION_SUCCESS:
+    case adminConstants.CHANGE_INFORMATION_SUCCESS:
       state = {
         ...initState,
         loading: false,
         messageInfor: action.payload.message,
       };
       break;
-    case settingConstants.CHANGE_INFORMATION_FAILURE:
+    case adminConstants.CHANGE_INFORMATION_FAILURE:
       state = {
         ...state,
         loading: false,
@@ -31,13 +33,13 @@ export default (state = initState, action) => {
         error: action.payload.error,
       };
       break;
-    case settingConstants.CHANGE_PASSWORD_REQUEST:
+    case adminConstants.CHANGE_PASSWORD_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case settingConstants.CHANGE_PASSWORD_SUCCESS:
+    case adminConstants.CHANGE_PASSWORD_SUCCESS:
       state = {
         ...initState,
         loading: false,
@@ -46,7 +48,7 @@ export default (state = initState, action) => {
         // messageInfor: "",
       };
       break;
-    case settingConstants.CHANGE_PASSWORD_FAILURE:
+    case adminConstants.CHANGE_PASSWORD_FAILURE:
       state = {
         ...state,
         loading: false,

@@ -38,6 +38,7 @@ const NewModal = (props) => {
         )}
       </Modal.Footer>
     </Modal>
+  
   );
 };
 

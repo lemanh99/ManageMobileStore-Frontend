@@ -1,37 +1,35 @@
-import { adminConstants } from "../../actions/constants";
+import { orderConstants } from "../../actions/constants";
 
 const initState = {
-  error: "",
-  message: "",
+  orders: [],
   loading: false,
+  error: "",
+  messages: "",
 };
 
 export default (state = initState, action) => {
   console.log(action.type);
   switch (action.type) {
-    case adminConstants.ADMIN_REGISTER_REQUEST:
+    case orderConstants.GET_ALL_ORDER_REQUEST:
       state = {
         ...state,
         loading: true,
       };
       break;
-    case adminConstants.ADMIN_REGISTER_SUCCESS:
+    case orderConstants.GET_ALL_ORDER_SUCCESS:
       state = {
-        ...state,
+        ...initState,
         loading: false,
-        message: "Admin Created Successfully",
-        error: "",
-        
+        orders: action.payload.orders,
       };
       break;
-    case adminConstants.ADMIN_REGISTER_FAILURE:
+    case orderConstants.GET_ALL_ORDER_FAILURE:
       state = {
         ...state,
         loading: false,
-        message: "",
         error: action.payload.error,
       };
       break;
-  }
+    }
   return state;
 };

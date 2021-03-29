@@ -5,6 +5,7 @@ export const getListCategory = () => {
   return async (dispatch) => {
     dispatch({ type: categoryConstants.GET_ALL_CATEGORY_REQUEST });
     const res = await axios.get(`/category/all`);
+    
     if (res.status === 200) {
       const { data } = res.data;
       dispatch({
@@ -49,7 +50,7 @@ export const addCatgeory = (form) => {
 export const deleteCategory = (id) => {
   return async (dispatch) => {
     dispatch({ type: categoryConstants.DELETE_CATEGORY_REQUEST });
-    const res = await axios.delete(`/category/delete`, { data: { id } });
+    const res = await axios.delete(`/category/delete/${id}`);
     if (res.status === 202) {
       const { message } = res.data;
       dispatch(getListCategory());
@@ -69,8 +70,9 @@ export const deleteCategory = (id) => {
 
 export const updateCategory = (form) => {
   return async (dispatch) => {
+    const id = form.get("id");
     dispatch({ type: categoryConstants.UPDATE_CATEGORY_REQUEST });
-    const res = await axios.post(`/category/update`, form );
+    const res = await axios.post(`/category/update/${id}`, form);
 
     if (res.status === 201) {
       const { message } = res.data;

@@ -49,7 +49,7 @@ export const addBrand = (form) => {
 export const deleteBrand = (id) => {
   return async (dispatch) => {
     dispatch({ type: brandConstants.DELETE_BRAND_REQUEST });
-    const res = await axios.delete(`/brand/delete`, { data: { id } });
+    const res = await axios.delete(`/brand/delete/${id}`);
     if (res.status === 202) {
       const { message } = res.data;
       dispatch(getListBrand());
@@ -69,8 +69,9 @@ export const deleteBrand = (id) => {
 
 export const updateBrand = (form) => {
   return async (dispatch) => {
+    const { id } = form.get("id");
     dispatch({ type: brandConstants.UPDATE_BRAND_REQUEST });
-    const res = await axios.post(`/brand/update`, form );
+    const res = await axios.post(`/brand/update/${id}`, form);
 
     if (res.status === 201) {
       const { message } = res.data;

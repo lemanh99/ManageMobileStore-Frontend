@@ -79,7 +79,7 @@ const Category = () => {
 
   const handleCloseEdit = () => {
     const form = new FormData();
-    form.append("_id", category._id);
+    form.append("id", category._id);
     form.append("name", name);
     form.append("categoryImage", categoryImage);
     console.log(category._id, name, categoryImage);

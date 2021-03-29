@@ -242,7 +242,7 @@ const Product = () => {
     for (let [index, product] of products.entries()) {
       let bra = brands.listBrand.find((brand) => brand._id === product.brandId);
       let cat = categories.listCategory.find(
-        (category) => category._id === bra.categoryId
+        (category) => category._id === (bra ? bra.categoryId : null)
       );
       var element = {
         sr: index + 1,
@@ -251,45 +251,37 @@ const Product = () => {
         quantity: product.quantity,
         brand: bra ? bra.name : null,
         category: cat ? cat.name : null,
-        btnView: (
-          <div style={{ textAlign: "center" }}>
+        btn: (
+          <div class="project-actions  text-center">
             <button
-              type="button"
-              className="btn"
+              class="btn btn-primary btn-sm"
               value={product._id}
-              style={{ marginRight: "4px", backgroundColor: "rgb(32 219 42)" }}
               onClick={handleShowView}
+              style={{ marginRight: "5px" }}
             >
-              Details
+              <i class="fas fa-folder"></i>
+              View
             </button>
-          </div>
-        ),
-        btnEdit: (
-          <div style={{ textAlign: "center" }}>
             <button
-              type="button"
-              className="btn btn-warning "
+              class="btn btn-info btn-sm"
               value={product._id}
-              style={{ marginRight: "4px" }}
               onClick={handleShowEdit}
+              style={{ marginRight: "5px" }}
             >
+              <i class="fas fa-pencil-alt"></i>
               Edit
             </button>
-          </div>
-        ),
-        btnDelete: (
-          <div style={{ textAlign: "center" }}>
             <button
-              type="button"
-              className="btn btn-danger"
+              class="btn btn-danger btn-sm"
               value={product._id}
               onClick={handleShowDelete}
+              style={{ marginRight: "5px" }}
             >
+              <i class="fas fa-trash"></i>
               Delete
             </button>
           </div>
         ),
-        //   a
       };
       all.push(element);
     }
@@ -335,21 +327,9 @@ const Product = () => {
       },
       {
         label: "",
-        field: "btnView",
+        field: "btn",
         sort: "asc",
-        width: 50,
-      },
-      {
-        label: "",
-        field: "btnEdit",
-        sort: "asc",
-        width: 50,
-      },
-      {
-        label: "",
-        field: "btnDelete",
-        sort: "asc",
-        width: 50,
+        width: 100,
       },
     ],
     rows: rowTable(listProduct),
@@ -398,7 +378,7 @@ const Product = () => {
                         <select
                           className="form-control "
                           value={selectedCategory}
-                          style={{ backgroundColor: "#e9ecef", width:"164px"}}
+                          style={{ backgroundColor: "#e9ecef", width: "164px" }}
                           onChange={(e) => setSelectedCategory(e.target.value)}
                         >
                           <option value="">Select Category</option>

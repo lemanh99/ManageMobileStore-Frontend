@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = (props) => {
   const auth = useSelector((state) => state.auth);
@@ -40,8 +40,14 @@ const Sidebar = (props) => {
             data-accordion="false"
           >
             <li className="nav-item">
-              <NavLink to={`/manage-admin`} className="nav-link">
+              <NavLink to={`/dashboard`} className="nav-link">
                 <i className="nav-icon fas fa-tachometer-alt"></i>
+                <p>Dashboard</p>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to={`/manage-admin`} className="nav-link">
+                <i className="nav-icon fas fa-users-cog"></i>
                 <p>Admin</p>
               </NavLink>
             </li>
@@ -70,11 +76,18 @@ const Sidebar = (props) => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <a href="{{ url_for('orders_manager')}}" className="nav-link">
+              <NavLink to={`/manage-order`} className="nav-link">
                 <i className="nav-icon fas fa-inbox"></i>
                 <p>Orders</p>
-              </a>
+              </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink to={`/statistical`} className="nav-link">
+                <i className="nav-icon fas fa-chart-bar"></i>
+                <p>Statistical</p>
+              </NavLink>
+            </li>
+
             <li className="nav-item">
               <NavLink to="/settings" className="nav-link ">
                 <i className="nav-icon fas fa-cog"></i>

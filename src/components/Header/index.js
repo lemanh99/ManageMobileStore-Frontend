@@ -22,14 +22,9 @@ const Header = (props) => {
             </NavLink>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">
-              Admin
-            </a>
-          </li>
-          <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">
-              Product
-            </a>
+            <NavLink to={`/statistical`} className="nav-link">
+              Statistical
+            </NavLink>
           </li>
         </ul>
         <form className="form-inline ml-3">

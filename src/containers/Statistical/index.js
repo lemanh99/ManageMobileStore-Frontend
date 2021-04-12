@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import WebDataRocks from "webdatarocks";
+// import WebDataRocks from "webdatarocks";
 // import { getListProduct } from "../../actions";
 import Layout from "../../components/Layout";
 import { dataJson } from "./dataJson";
@@ -14,24 +14,24 @@ const Statistical = () => {
   })
   useEffect(() => {
     
-    new WebDataRocks({
-      container: "#pivotContainer",
-      toolbar: true,
-      height: 580,
-      width: "100%",
-      report: {
-        dataSource: {
-          data: dataJson().orders,
-        },
-      },
-      slice: {
-        rows: [
-          {
-            uniq:'_id'
-        }
-        ],
-      },
-    });
+//     new WebDataRocks({
+//       container: "#pivotContainer",
+//       toolbar: true,
+//       height: 580,
+//       width: "100%",
+//       report: {
+//         dataSource: {
+//           data: dataJson().orders,
+//         },
+//       },
+//       slice: {
+//         rows: [
+//           {
+//             uniq:'_id'
+//         }
+//         ],
+//       },
+//     });
   }, []);
   console.log(list);
   return (

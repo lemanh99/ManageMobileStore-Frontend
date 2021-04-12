@@ -221,7 +221,7 @@ const Customer = () => {
                   <div className="col-lg-12">
                     <div className="" style={{ float: "right" }}>
                       <div className="card-body">
-                        <div className="input-group">
+                        {/* <div className="input-group">
                           <div className="input-group-prepend">
                             <select
                               className="form-control "
@@ -252,6 +252,32 @@ const Customer = () => {
                               <i className="fas fa-search"></i>
                             </button>
                           </div>
+                        </div>
+                       */}
+                        <div className="input-group mb-3">
+                          <div className="input-group-prepend">
+                            <select
+                              className="btn btn-default dropdown-toggle"
+                              value={selected}
+                              style={{ backgroundColor: "#e9ecef" }}
+                              onChange={(e) => (
+                                setSelected(e.target.value), setSearch("")
+                              )}
+                            >
+                              <option className="dropdown-item" value="1">Username</option>
+                              <option className="dropdown-item" value="2">Email</option>
+                              <option className="dropdown-item" value="3">Full Name</option>
+                            </select>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search"
+                            value={search}
+                            onChange={(e) => {
+                              searchList(e);
+                            }}
+                          ></input>
                         </div>
                       </div>
                     </div>

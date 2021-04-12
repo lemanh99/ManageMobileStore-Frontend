@@ -1,6 +1,6 @@
+import Chart from "chart.js";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   getListAdmin,
   getListCustomer,
@@ -8,8 +8,10 @@ import {
   getOrders,
 } from "../../actions";
 import Layout from "../../components/Layout";
-import { generatePublicUrl } from "../../urlConfig";
 import InforBox from "./components/InforBox";
+import LastMember from "./components/LastMember";
+import LastOrders from "./components/LastOrders";
+import LastProduct from "./components/LastProduct";
 
 /**
  * @author
@@ -22,14 +24,18 @@ const Dashboard = (props) => {
   const order = useSelector((state) => state.order);
 
   const [newOder, setNewOder] = useState(0);
-  const [countCustomer, setCountCustomer] = useState(0);
-  const [countProduct, setCountProduct] = useState(0);
-  const [countOrder, setCountOrder] = useState(0);
+  const [lastCustomer, setLastCustomer] = useState(0);
+  const [lastProduct, setLastProduct] = useState(0);
+  const [lastOrder, setLastOrder] = useState(0);
   const [topProduct, setTopProduct] = useState([]);
+
+  const [lastMonth, setLastMonth] = useState([]);
+  const [countCustomer, setCountCustomer] = useState([]);
+  const [countProduct, setCountProduct] = useState([]);
+  const [countOrder, setCountOrder] = useState([]);
+
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getListAdmin());
-  // }, []);
+
   useEffect(() => {
     dispatch(getListAdmin());
     dispatch(getListCustomer());
@@ -67,68 +73,161 @@ const Dashboard = (props) => {
       (order) => order.paymentStatus === "pending"
     );
     setNewOder(pending.length);
-    setCountCustomer(customer.listCustomer.length);
-    setCountProduct(product.listProduct.length);
-    setCountOrder(order.orders.length);
+    setLastCustomer(customer.listCustomer.length);
+    setLastProduct(product.listProduct.length);
+    setLastOrder(order.orders.length);
     topProductSale(order.orders);
     setTopProduct(topProductSale(order.orders));
+    setDataChart();
   }, [customer.listCustomer, product.listProduct, order.orders]);
-  const convert = (string) => {
-    var times = new Date(string);
-    return times.getDate() + "/" + times.getMonth();
-  };
 
-  const options = {
-    animationEnabled: true,
-    title: {
-      text: "Number of New Customers",
-    },
-    axisY: {
-      title: "Number of Customers",
-    },
-    toolTip: {
-      shared: true,
-    },
-    data: [
-      {
-        type: "spline",
-        name: "2016",
-        showInLegend: true,
-        dataPoints: [
-          { y: 155, label: "Jan" },
-          { y: 150, label: "Feb" },
-          { y: 152, label: "Mar" },
-          { y: 148, label: "Apr" },
-          { y: 142, label: "May" },
-          { y: 150, label: "Jun" },
-          { y: 146, label: "Jul" },
-          { y: 149, label: "Aug" },
-          { y: 153, label: "Sept" },
-          { y: 158, label: "Oct" },
-          { y: 154, label: "Nov" },
-          { y: 150, label: "Dec" },
+  useEffect(() => {
+    // Bar chart
+    return new Chart(document.getElementById("bar-chart"), {
+      type: "bar",
+      data: {
+        labels: lastMonth.reverse(),
+        datasets: [
+          {
+            label: "New Products",
+            yAxesGroups: "A",
+            backgroundColor: [
+              "#8e5ea2",
+              "#8e5ea2",
+              "#8e5ea2",
+              "#8e5ea2",
+              "#8e5ea2",
+              "#8e5ea2",
+            ],
+            data: countProduct.reverse(),
+          },
+          {
+            label: "Member Register ",
+            yAxesGroups: "B",
+            backgroundColor: [
+              "#3cba9f",
+              "#3cba9f",
+              "#3cba9f",
+              "#3cba9f",
+              "#3cba9f",
+              "#3cba9f",
+            ],
+            data: countCustomer.reverse(),
+          },
+          {
+            label: "Orders",
+            yAxesGroups: "C",
+            backgroundColor: [
+              "#c45850",
+              "#c45850",
+              "#c45850",
+              "#c45850",
+              "#c45850",
+              "#c45850",
+            ],
+            data: countOrder.reverse(),
+          },
         ],
       },
-      {
-        type: "spline",
-        name: "2017",
-        showInLegend: true,
-        dataPoints: [
-          { y: 172, label: "Jan" },
-          { y: 173, label: "Feb" },
-          { y: 175, label: "Mar" },
-          { y: 172, label: "Apr" },
-          { y: 162, label: "May" },
-          { y: 165, label: "Jun" },
-          { y: 172, label: "Jul" },
-          { y: 168, label: "Aug" },
-          { y: 175, label: "Sept" },
-          { y: 170, label: "Oct" },
-          { y: 165, label: "Nov" },
-          { y: 169, label: "Dec" },
+      options: {
+        legend: { display: true },
+        // title: {
+        //   display: true,
+        //   text:
+        //     "Predicted world population (millions) in 2050",
+        // },
+        yAxes: [
+          {
+            name: "A",
+            type: "linear",
+            position: "left",
+            scalePositionLeft: true,
+          },
+          {
+            name: "B",
+            type: "linear",
+            position: "right",
+            scalePositionLeft: false,
+          },
+          {
+            name: "C",
+            type: "linear",
+            position: "right",
+            scalePositionLeft: false,
+          },
         ],
       },
-    ],
+    });
+  }, [lastMonth, countProduct, countOrder, countCustomer]);
+  const getMonth = (datas) => {
+    var monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth();
+
+    var i = 0;
+    let list = [];
+    let listNameMonth = [];
+    const data = datas.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    do {
+      var count = data.filter(
+        (_data) => new Date(_data.createdAt).getMonth() === month
+      ).length;
+      listNameMonth.push(monthNames[month] + "-" + year);
+      list.push({
+        month: month,
+        year: year,
+        monthNames: monthNames[month],
+        count: count,
+      });
+      if (month === 0) {
+        month = 11;
+        year--;
+      } else {
+        month--;
+      }
+      i++;
+    } while (i < 6);
+    return { month: listNameMonth, data: list };
+  };
+  const setDataChart = () => {
+    const prods = getMonth(product.listProduct);
+    // setCountProduct(prod.data)
+    setLastMonth(prods.month);
+    var lst = [];
+    for (let prod of prods.data) {
+      lst.push(prod.count);
+    }
+    setCountProduct(lst);
+    lst = [];
+    const od = getMonth(order.orders);
+    for (let order of od.data) {
+      lst.push(order.count);
+    }
+    setCountOrder(lst);
+    lst = [];
+    const cus = getMonth(customer.listCustomer);
+    for (let customer of cus.data) {
+      lst.push(customer.count);
+    }
+    setCountCustomer(lst);
   };
 
   return (
@@ -146,32 +245,32 @@ const Dashboard = (props) => {
                   background="bg-info"
                   title="New Order"
                   value={newOder}
-                  type="increase"
-                  percentage="10"
+                  // type="increase"
+                  // percentage="10"
                 />
                 <InforBox
                   icon="fas fa-user-plus"
                   background="bg-warning"
                   title="New Registrations"
-                  value={countCustomer}
-                  type="increase"
-                  percentage="10"
+                  value={lastCustomer}
+                  // type="increase"
+                  // percentage="10"
                 />
                 <InforBox
                   icon="fas fa-shopping-cart"
                   background="bg-success"
                   title="Sales"
-                  value={countOrder}
-                  type="increase"
-                  percentage="10"
+                  value={lastOrder}
+                  // type="increase"
+                  // percentage="10"
                 />
                 <InforBox
                   icon="fab fa-product-hunt"
                   background="bg-danger"
                   title="Product"
-                  value={countProduct}
-                  type="increase"
-                  percentage="10"
+                  value={lastProduct}
+                  // type="increase"
+                  // percentage="10"
                 />
               </div>
               <div className="row">
@@ -199,7 +298,7 @@ const Dashboard = (props) => {
                             className="dropdown-menu dropdown-menu-right"
                             role="menu"
                           >
-                            <a href="#" className="dropdown-item">
+                            {/* <a href="#" className="dropdown-item">
                               Action
                             </a>
                             <a href="#" className="dropdown-item">
@@ -211,7 +310,7 @@ const Dashboard = (props) => {
                             <a className="dropdown-divider" />
                             <a href="#" className="dropdown-item">
                               Separated link
-                            </a>
+                            </a> */}
                           </div>
                         </div>
                         <button
@@ -228,18 +327,23 @@ const Dashboard = (props) => {
                       <div className="row">
                         <div className="col-md-12">
                           <p className="text-center">
-                            <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                            <strong>
+                              Sales overview:
+                              {lastMonth.length > 0
+                                ? lastMonth[0] -
+                                lastMonth[lastMonth.length - 1]
+                                : null}{" "}
+                            </strong>
                           </p>
                           <div className="chart">
                             <canvas
-                              id="salesChart"
-                              height={180}
-                              style={{ height: "180px" }}
+                              id="bar-chart"
+                              height={100}
+                              style={{ height: "100px" }}
                               className="chartjs-render-monitor"
-                            />
+                            ></canvas>
                           </div>
                         </div>
-
                       </div>
                     </div>
 
@@ -338,7 +442,7 @@ const Dashboard = (props) => {
                                         className="badge badge-warning navbar-badge"
                                         style={{ fontWeight: "bold" }}
                                       >
-                                        {index+1}
+                                        {index + 1}
                                       </span>
                                     </div>
                                   </li>
@@ -364,199 +468,15 @@ const Dashboard = (props) => {
               </div>
               <div className="row">
                 <div className="col-md-4">
-                  <div className="card">
-                    <div className="card-header border-transparent">
-                      <h3 className="card-title">Latest Orders</h3>
-                      <div className="card-tools">
-                        <span className="badge badge-warning">5 New Order</span>
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="collapse"
-                        >
-                          <i className="fas fa-minus" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="remove"
-                        >
-                          <i className="fas fa-times" />
-                        </button>
-                      </div>
-                    </div>
-                    {/* /.card-header */}
-                    <div className="card-body p-0">
-                      <div className="table-responsive">
-                        <table className="table m-0">
-                          <thead>
-                            <tr>
-                              <th>Order ID</th>
-                              <th>TotalAmount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {order.orders
-                              .sort(
-                                (a, b) =>
-                                  new Date(b.createdAt).getTime() -
-                                  new Date(a.createdAt).getTime()
-                              )
-                              .slice(0, 5)
-                              .map((order) => {
-                                return (
-                                  <tr>
-                                    <td>{order.codeBill}</td>
-                                    <td>{order.totalAmount}</td>
-                                  </tr>
-                                );
-                              })}
-                          </tbody>
-                        </table>
-                      </div>
-                      {/* /.table-responsive */}
-                    </div>
-                    {/* /.card-body */}
-                    <div className="card-footer text-center">
-                      <Link to={`/manage-order`}>View All Orders</Link>
-                    </div>
-                    {/* /.card-footer */}
-                  </div>
-                </div>
-                {/* /.col */}
-                <div className="col-md-4">
-                  {/* USERS LIST */}
-                  <div className="card">
-                    <div className="card-header">
-                      <h3 className="card-title">Latest Members</h3>
-                      <div className="card-tools">
-                        <span className="badge badge-danger">
-                          8 New Members
-                        </span>
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="collapse"
-                        >
-                          <i className="fas fa-minus" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="remove"
-                        >
-                          <i className="fas fa-times" />
-                        </button>
-                      </div>
-                    </div>
-                    {/* /.card-header */}
-                    <div className="card-body p-0">
-                      <ul className="users-list clearfix">
-                        {customer.listCustomer
-                          .sort(
-                            (a, b) =>
-                              new Date(b.createdAt).getTime() -
-                              new Date(a.createdAt).getTime()
-                          )
-                          .slice(0, 8)
-                          .map((customer) => {
-                            return (
-                              <li>
-                                <img
-                                  src="https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png"
-                                  alt="User Image"
-                                />
-                                <div className="users-list-name">
-                                  Alexander Pierce
-                                </div>
-                                <span className="users-list-date">
-                                  {convert(customer.createdAt)}
-                                </span>
-                              </li>
-                            );
-                          })}
-                      </ul>
-                      {/* /.users-list */}
-                    </div>
-                    {/* /.card-body */}
-                    <div className="card-footer text-center">
-                      <Link to={`/manage-customer`}>View All Users</Link>
-                    </div>
-                    {/* /.card-footer */}
-                  </div>
-                  {/*/.card */}
+                  <LastOrders order={order} />
                 </div>
 
                 <div className="col-md-4">
-                  <div className="card">
-                    <div className="card-header">
-                      <h3 className="card-title">Recently Added Products</h3>
-                      <div className="card-tools">
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="collapse"
-                        >
-                          <i className="fas fa-minus" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-tool"
-                          data-card-widget="remove"
-                        >
-                          <i className="fas fa-times" />
-                        </button>
-                      </div>
-                    </div>
-                    {/* /.card-header */}
-                    <div className="card-body p-0">
-                      <ul className="products-list product-list-in-card pl-2 pr-2">
-                        {product.listProduct
-                          .sort(
-                            (a, b) =>
-                              new Date(b.createdAt).getTime() -
-                              new Date(a.createdAt).getTime()
-                          )
-                          .slice(0, 4)
-                          .map((product) => {
-                            return (
-                              <li className="item">
-                                <div className="product-img">
-                                  <img
-                                    src={
-                                      product.productPictures
-                                        ? generatePublicUrl(
-                                            product.productPictures[0].img
-                                          )
-                                        : ""
-                                    }
-                                    alt="Product Image"
-                                    className="img-size-50"
-                                  />
-                                </div>
-                                <div className="product-info">
-                                  <div className="product-title">
-                                    {product.name}
-                                    <span className="badge badge-warning float-right">
-                                      ${product.price}
-                                    </span>
-                                  </div>
-                                  <span className="product-description">
-                                    {product.description}
-                                  </span>
-                                </div>
-                              </li>
-                            );
-                          })}
-                      </ul>
-                    </div>
+                  <LastMember customer={customer} />
+                </div>
 
-                    {/* /.card-body */}
-                    <div className="card-footer text-center">
-                      <Link to={`/manage-product`}>View All Products</Link>
-                    </div>
-                    {/* /.card-footer */}
-                  </div>
+                <div className="col-md-4">
+                  <LastProduct product={product} />
                 </div>
               </div>
             </div>

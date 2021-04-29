@@ -5,10 +5,8 @@ const DeleteAdminModal = (props) => {
   const {
     show,
     handleClose,
-    modalTitle,
     onSubmit,
     adminDelete,
-    setAdminDelete,
   } = props;
   const buttons = [
     {

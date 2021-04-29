@@ -83,6 +83,8 @@ const AddBrandModal = (props) => {
                 src={window.URL.createObjectURL(brandImage)}
                 width="100"
                 height="100"
+                alt="brand image"
+                aria-hidden
               />
             ) : null}
           </div>

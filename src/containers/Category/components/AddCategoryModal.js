@@ -60,15 +60,14 @@ const AddCategoryModal = (props) => {
 
         <div class="form-group">
           <label for="customFile">Image</label>
-          {/* {categoryImage.name ? (
-
-          ) : (<img id="img"/>)} */}
           <div className="row" style={{ marginBottom: "5px" }}>
             <img
               id="img"
               src=""
               width={categoryImage.name ? "100" : null}
               height={categoryImage.name ? "100" : null}
+              alt="Image category"
+              aria-hidden
             />
           </div>
           {/* <div className="row" style={{ marginBottom: "5px" }}>

@@ -74,12 +74,12 @@ const Settings = (props) => {
       case 2:
         if (password !== value) {
           setMessage("Entered Password is not matching!!");
-          break;
-        }
-        if (password === value) {
+        } else {
           setMessage("Password matching!!");
-          break;
         }
+        break;
+      default:
+        break;
     }
   };
   return (
@@ -95,7 +95,12 @@ const Settings = (props) => {
                     id="custom-tabs-one-tab"
                     role="tablist"
                   >
-                    <li className="nav-item" onClick={(e)=>{setMessage("")}}>
+                    <li
+                      className="nav-item"
+                      onClick={(e) => {
+                        setMessage("");
+                      }}
+                    >
                       <a
                         className="nav-link active"
                         id="custom-tabs-one-home-tab"
@@ -108,7 +113,12 @@ const Settings = (props) => {
                         Change Infomation Account
                       </a>
                     </li>
-                    <li className="nav-item" onClick={(e)=>{setMessage("")}}>
+                    <li
+                      className="nav-item"
+                      onClick={(e) => {
+                        setMessage("");
+                      }}
+                    >
                       <a
                         className="nav-link"
                         id="custom-tabs-one-profile-tab"
@@ -230,10 +240,8 @@ const Settings = (props) => {
                                     onSubmit={ChangePass}
                                   >
                                     <div class="card-body">
-                                      {message ===
-                                        "Password matching!!" ||
-                                      message ===
-                                        "Update Passsword Success" ? (
+                                      {message === "Password matching!!" ||
+                                      message === "Update Passsword Success" ? (
                                         <Notification
                                           type="success"
                                           message={message}

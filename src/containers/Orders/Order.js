@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CancelTable from "./components/CancelTable";
 import CompleteTable from "./components/CompleteTable";
 import InvoiceModal from "./components/InvoiceModal";
-import NewModal from "../../components/UI/Modal";
 
 const Order = () => {
   const orders = useSelector((state) => state.order);
@@ -22,17 +21,18 @@ const Order = () => {
   useEffect(() => {
     dispatch(getOrders());
     dispatch(getListCustomer());
-  }, []);
+  }, [dispatch]);
 
   const handleShow = (event) => {
     const id = event.target.value;
-    console.log(id);
     const ord = orders.orders.find((order) => order._id === id);
     setOrder(ord);
-    const cus = customers.listCustomer.find(
-      (customer) => customer._id === ord.customerId
-    );
-    setCustomer(cus);
+    if (ord) {
+      const cus = customers.listCustomer.find(
+        (customer) => customer._id === ord.customerId
+      );
+      setCustomer(cus);
+    }
 
     // const prod = products.listProduct.find((product) => product._id === id);
     setShow(true);
@@ -84,12 +84,14 @@ const Order = () => {
           </div>
         </div>
       </section>
-      <InvoiceModal
-        show={show}
-        handleClose={handleClose}
-        order={order}
-        customer={customer}
-      />
+      {order ? (
+        <InvoiceModal
+          show={show}
+          handleClose={handleClose}
+          order={order}
+          customer={customer}
+        />
+      ) : null}
     </Layout>
   );
 };

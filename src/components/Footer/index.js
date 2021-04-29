@@ -5,10 +5,10 @@ const Footer = (props) => {
     <>
       <footer className="main-footer">
         <div className="float-right d-none d-sm-block">
-          <b>Version</b> 3.0.5
+          <b>Version</b> 0.0.1
         </div>
         <strong>
-          Copyright &copy; 2014-2019{" "}
+          Bootstrap Admin Dashboard Template Free in &copy;{" "}
           <a href="http://adminlte.io">AdminLTE.io</a>.
         </strong>{" "}
         All rights reserved. & Design By{" "}
@@ -17,6 +17,7 @@ const Footer = (props) => {
             href="https://github.com/lemanh99/WebThucTapCongNhan"
             target="_blank"
             className="copyrightlink"
+            rel="noreferrer"
           >
             Lê Xuân Mạnh
           </a>

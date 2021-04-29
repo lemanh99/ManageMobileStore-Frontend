@@ -14,14 +14,14 @@ const InvoiceModal = (props) => {
     pri.print();
   };
   const date = new Date();
-  console.log(order.productDetail);
   return (
     <Modal size="xl" show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Invoice</Modal.Title>
       </Modal.Header>
       <iframe
-        id="ifmcontentstoprint"
+        title="Invoice"
+        id="ifmcontentstoprintIfr"
         style={{
           height: "0px",
           width: "0px",
@@ -132,7 +132,7 @@ const InvoiceModal = (props) => {
                           ? "Cash to deliver"
                           : "Card online"}
                       </p>
-                      <p >
+                      <p>
                         <b>Payment Status :</b>
 
                         {order.paymentStatus}
@@ -148,7 +148,7 @@ const InvoiceModal = (props) => {
                               <th style={{ width: "50%" }}>Subtotal:</th>
                               <td>${order.totalAmount}</td>
                             </tr>
-           
+
                             <tr>
                               <th>Shipping:</th>
                               <td>$0</td>
@@ -161,10 +161,7 @@ const InvoiceModal = (props) => {
                         </table>
                       </div>
                     </div>
-                    {/* /.col */}
                   </div>
-                  {/* /.row */}
-                  {/* this row will not appear when printing */}
                 </div>
               </div>
             </div>
@@ -182,21 +179,25 @@ const InvoiceModal = (props) => {
             >
               <i className="fas fa-backspace" /> Back
             </button>
-            <button
-              type="button"
-              className="btn btn-danger float-right"
-              style={{ marginRight: "5px" }}
-            >
-              <i className="fas fa-trash" /> Cancel
-            </button>
 
-            <button
-              type="button"
-              className="btn btn-success float-right"
-              style={{ marginRight: "5px" }}
-            >
-              <i className="far fa-credit-card" /> Delivery
-            </button>
+            {order.paymentStatus === "pending" ? (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-danger float-right"
+                  style={{ marginRight: "5px" }}
+                >
+                  <i className="fas fa-trash" /> Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success float-right"
+                  style={{ marginRight: "5px" }}
+                >
+                  <i className="far fa-credit-card" /> Delivery
+                </button>
+              </>
+            ) : null}
             <button
               type="button"
               className="btn btn-primary float-right"
@@ -207,15 +208,6 @@ const InvoiceModal = (props) => {
             </button>
           </div>
         </div>
-
-        {/* <Button
-          variant="primary"
-          {...props}
-          className="btn btn-warning  btn-secondary"
-          onClick={props.handleClose}
-        >
-          Back
-        </Button> */}
       </Modal.Footer>
     </Modal>
   );

@@ -24,6 +24,7 @@ const Sidebar = (props) => {
               src={`${process.env.PUBLIC_URL}/assets/img/avatar.jpg`}
               className="img-circle elevation-2"
               alt="Admin Image"
+              aria-hidden
             />
           </div>
           <div className="info">

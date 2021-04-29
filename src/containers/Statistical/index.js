@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+// import React, { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
 // import WebDataRocks from "webdatarocks";
-// import { getListProduct } from "../../actions";
-import Layout from "../../components/Layout";
-import { dataJson } from "./dataJson";
-// import data from "./data";
+// // import { getListProduct } from "../../actions";
+// import Layout from "../../components/Layout";
+// import { dataJson } from "./dataJson";
+// // import data from "./data";
 
-const Statistical = () => {
-  const products = useSelector((state) => state.product);
-  const [list, setList] = useState([]);
-  useEffect(() => {
-    setList(dataJson().orders);
-  })
-  useEffect(() => {
+// const Statistical = () => {
+//   const products = useSelector((state) => state.product);
+//   const [list, setList] = useState([]);
+//   useEffect(() => {
+//     setList(dataJson().orders);
+//   })
+//   useEffect(() => {
     
 //     new WebDataRocks({
 //       container: "#pivotContainer",
@@ -32,13 +32,19 @@ const Statistical = () => {
 //         ],
 //       },
 //     });
-  }, []);
-  console.log(list);
-  return (
-    <Layout>
-      <div className="content" id="pivotContainer"></div>
-    </Layout>
-  );
-};
+//   }, []);
+//   console.log(list);
+//   return (
+//     <Layout>
+//       <div className="content" id="pivotContainer"></div>
+//     </Layout>
+//   );
+// };
+
+// export default Statistical;
+
+const Statistical = ()=>{
+  return null
+}
 
 export default Statistical;

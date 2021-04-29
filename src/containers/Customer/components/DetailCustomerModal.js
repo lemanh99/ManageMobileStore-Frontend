@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import NewModal from "../../../components/UI/Modal";
-import Notification from "../../../components/UI/Notification";
 
 const DetailCustomerModal = (props) => {
-  const [message, setMessgae] = useState("");
   const { show, handleClose, modalTitle, user } = props;
   const buttons = [
     {

@@ -47,21 +47,14 @@ const Product = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!brands.loading) {
-      dispatch(getListBrand()).then(() => {
-        if (!categories.loading) {
-          dispatch(getListCategory());
-        }
-      });
-    }
-
-    if (!products.loading) {
-      dispatch(getListProduct());
-    }
-  }, []);
+    dispatch(getListBrand()).then(() => {
+      dispatch(getListCategory());
+    });
+    dispatch(getListProduct());
+  }, [dispatch]);
   useEffect(() => {
     setMessage(products.messages);
-  });
+  }, [products.messages]);
   useEffect(() => {
     setListProduct(products.listProduct);
     setListBrand(brands.listBrand);
@@ -219,21 +212,17 @@ const Product = () => {
   };
   //selected
   const searchList = (event) => {
-    // const value = event.target.value;
-    // setSearch(value);
-    // let listSearch;
-    // if (selected) {
-    //   listSearch = brands.listBrand.find(
-    //     (brand) => brand.categoryId === selected && brand.name === value
-    //   );
-    //   listSearch ? setListBrand([listSearch]) : setListBrand([]);
-    // } else {
-    //   listSearch = brands.listBrand.find((brand) => brand.name === value);
-    //   listSearch ? setListBrand([listSearch]) : setListBrand([]);
-    // }
-    // if (value === "") {
-    //   setListBrand(brands.listBrand);
-    // }
+    const value = event.target.value;
+    setSearch(value);
+    let listSearch;
+    if (value === "") {
+      setListProduct(products.listProduct);
+    } else {
+      const prod = products.listProduct.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setListProduct(prod);
+    }
   };
 
   //row table

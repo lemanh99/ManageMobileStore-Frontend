@@ -42,6 +42,7 @@ import { ConvertIOStoDate } from "./ConvertStringToTime";
 const PendingTable = (props) => {
   const { listOrder, listCustomer, handleShow } = props;
   const rowTable = (orders) => {
+    
     const all = [];
     let index = 0;
     for (let order of orders) {
@@ -67,7 +68,7 @@ const PendingTable = (props) => {
                 onClick={handleShow}
                 style={{ marginRight: "5px" }}
               >
-                <i class="fas fa-folder"></i>
+                <i class="fas fa-folder" style={{marginRight: '4px'}}></i>
                 View
               </button>
 
@@ -77,7 +78,7 @@ const PendingTable = (props) => {
                 // onClick={handleShowDelete}
                 style={{ marginRight: "5px" }}
               >
-                <i class="fas fa-trash"></i>
+                <i class="fas fa-trash" style={{marginRight: '4px'}}></i>
                 Cancel
               </button>
             </div>

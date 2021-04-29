@@ -98,6 +98,8 @@ const ViewProductModal = (props) => {
                     src={generatePublicUrl(pic.img)}
                     width="100"
                     height="100"
+                    alt={`image product ${index}`}
+                    aria-hidden
                   />
                 ))
               : null}

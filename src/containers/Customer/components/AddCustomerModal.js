@@ -47,6 +47,8 @@ const AddCustomerModal = (props) => {
         );
         checkUsername ? setMessage("Username already exists") : setMessage("");
         break;
+      default:
+        break;
     }
   };
   return (

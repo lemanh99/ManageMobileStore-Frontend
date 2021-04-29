@@ -24,11 +24,9 @@ const ManageAdmin = () => {
   const authenticate = auth.user.role;
 
   useEffect(() => {
-    if (!manage_admin.loading) {
-      dispatch(getListAdmin());
-    }
+    dispatch(getListAdmin());
     setMessage("");
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setListAdmin(manage_admin.listAdmin);
@@ -41,7 +39,6 @@ const ManageAdmin = () => {
     const admin = manage_admin.listAdmin.find((admin) => admin._id === id);
     setAdminDelete(admin);
     setShowDeleteModal(true);
-    
   };
   const handleClose = () => {
     const user = {
@@ -56,13 +53,13 @@ const ManageAdmin = () => {
     setLastName("");
     setEmail("");
     setPassword("");
-    setMessage("Register a new admin successfully!")
+    setMessage("Register a new admin successfully!");
   };
   const handleCloseDelete = () => {
     dispatch(deleteAdminById(adminDelete._id));
     setAdminDelete({});
     setShowDeleteModal(false);
-    setMessage("Delete Successfully!")
+    setMessage("Delete Successfully!");
   };
 
   //Set table

@@ -30,17 +30,15 @@ const Customer = () => {
   const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
-    if (!customer.loading) {
-      dispatch(getListCustomer());
-    }
-  }, []);
+    dispatch(getListCustomer());
+  }, [dispatch]);
   useEffect(() => {
     setListCustomer(customer.listCustomer);
   }, [customer.listCustomer]);
 
   useEffect(() => {
     setMessage(customer.messages);
-  });
+  }, [customer.messages]);
 
   //Handle show modal
   const handleShow = (event) => {
@@ -71,6 +69,10 @@ const Customer = () => {
     // setMessage("Register a new customer successfully!");
     setShowAdd(false);
   };
+  const handleSelect = (event) => {
+    setSelected(event.target.value);
+    setSearch("");
+  };
   //selected
   const searchList = (event) => {
     const value = event.target.value;
@@ -91,6 +93,8 @@ const Customer = () => {
         lst = customer.listCustomer.filter((customer) =>
           customer.fullName.toLowerCase().includes(value.toLowerCase())
         );
+        break;
+      default:
         break;
     }
     setListCustomer(lst);
@@ -221,52 +225,23 @@ const Customer = () => {
                   <div className="col-lg-12">
                     <div className="" style={{ float: "right" }}>
                       <div className="card-body">
-                        {/* <div className="input-group">
-                          <div className="input-group-prepend">
-                            <select
-                              className="form-control "
-                              value={selected}
-                              style={{ backgroundColor: "#e9ecef" }}
-                              onChange={(e) => (
-                                setSelected(e.target.value), setSearch("")
-                              )}
-                            >
-                              <option value="1">Username</option>
-                              <option value="2">Email</option>
-                              <option value="3">Full Name</option>
-                            </select>
-                          </div>
-                          <div class="input-group-append">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Search"
-                              value={search}
-                              onChange={(e) => {
-                                searchList(e);
-                              }}
-                            ></input>
-                          </div>
-                          <div className="input-group-append">
-                            <button className="input-group-text" type="submit">
-                              <i className="fas fa-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                       */}
                         <div className="input-group mb-3">
                           <div className="input-group-prepend">
                             <select
                               className="btn btn-default dropdown-toggle"
                               value={selected}
                               style={{ backgroundColor: "#e9ecef" }}
-                              onChange={(e) => (
-                                setSelected(e.target.value), setSearch("")
-                              )}
+                              onChange={(e) => handleSelect(e)}
                             >
-                              <option className="dropdown-item" value="1">Username</option>
-                              <option className="dropdown-item" value="2">Email</option>
-                              <option className="dropdown-item" value="3">Full Name</option>
+                              <option className="dropdown-item" value="1">
+                                Username
+                              </option>
+                              <option className="dropdown-item" value="2">
+                                Email
+                              </option>
+                              <option className="dropdown-item" value="3">
+                                Full Name
+                              </option>
                             </select>
                           </div>
                           <input

@@ -47,7 +47,7 @@ const LastMember = (props) => {
                     aria-hidden
                     alt="User Image"
                   />
-                  <div className="users-list-name">Alexander Pierce</div>
+                  <div className="users-list-name">{customer.firstName +" "+customer.lastName}</div>
                   <span className="users-list-date">
                     {convert(customer.createdAt)}
                   </span>

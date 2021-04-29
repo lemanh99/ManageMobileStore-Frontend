@@ -41,7 +41,7 @@ const Dashboard = (props) => {
     dispatch(getListCustomer());
     dispatch(getOrders());
     dispatch(getListProduct());
-  }, []);
+  }, [dispatch]);
 
   const topProductSale = (orders) => {
     let listTop = [];
@@ -297,21 +297,7 @@ const Dashboard = (props) => {
                           <div
                             className="dropdown-menu dropdown-menu-right"
                             role="menu"
-                          >
-                            {/* <a href="#" className="dropdown-item">
-                              Action
-                            </a>
-                            <a href="#" className="dropdown-item">
-                              Another action
-                            </a>
-                            <a href="#" className="dropdown-item">
-                              Something else here
-                            </a>
-                            <a className="dropdown-divider" />
-                            <a href="#" className="dropdown-item">
-                              Separated link
-                            </a> */}
-                          </div>
+                          ></div>
                         </div>
                         <button
                           type="button"
@@ -330,9 +316,15 @@ const Dashboard = (props) => {
                             <strong>
                               Sales overview:
                               {lastMonth.length > 0
-                                ? lastMonth[0] -
-                                lastMonth[lastMonth.length - 1]
-                                : null}{" "}
+                                ? " " +
+                                  lastMonth[lastMonth.length - 1].slice(0, 3) +
+                                  ", " +
+                                  lastMonth[lastMonth.length - 1].slice(-4) +
+                                  " - " +
+                                  lastMonth[0].slice(0, 3) +
+                                  ", " +
+                                  lastMonth[0].slice(-4)
+                                : null}
                             </strong>
                           </p>
                           <div className="chart">

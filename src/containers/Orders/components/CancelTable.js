@@ -31,7 +31,7 @@ const CancelTable = (props) => {
                 onClick={handleShow}
                 style={{ marginRight: "5px" }}
               >
-                <i class="fas fa-folder"></i>
+                <i class="fas fa-folder" style={{marginRight: '4px'}}></i>
                 View
               </button>
             </div>

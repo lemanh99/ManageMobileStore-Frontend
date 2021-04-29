@@ -199,6 +199,8 @@ const EditProductModal = (props) => {
                     src={!pic.img ? window.URL.createObjectURL(pic) : null}
                     width="100"
                     height="100"
+                    alt={`image product ${index}`}
+                    aria-hidden
                   />
                 ))
               : null}

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 // import Layout from '../../components/Layout';
-import { getListAdmin, getListCustomer, getListProduct, getOrders } from "../../actions";
+import {
+  getListAdmin,
+  getListCustomer,
+  getListProduct,
+  getOrders,
+} from "../../actions";
 import { Redirect } from "react-router-dom";
 /**
  * @author
@@ -13,8 +18,9 @@ const Home = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getListAdmin());
-    dispatch(getListCustomer());
     dispatch(getOrders());
+    dispatch(getListCustomer());
+
     dispatch(getListProduct());
   });
   setTimeout(() => {
@@ -23,7 +29,6 @@ const Home = (props) => {
   return wait ? (
     <Redirect to={`dashboard`} />
   ) : (
-
     <div className="card-body">
       .
       <div className="overlay ">

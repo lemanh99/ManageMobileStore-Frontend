@@ -3,7 +3,7 @@ import NewModal from "../../../components/UI/Modal";
 import Notification from "../../../components/UI/Notification";
 const AddProductModal = (props) => {
   const [message, setMessage] = useState("");
-  const [listSelect, setListSelect] = useState([]);
+  // const [listSelect, setListSelect] = useState([]);
 
   useEffect(() => {
     setMessage("");
@@ -33,13 +33,13 @@ const AddProductModal = (props) => {
     listCategory,
     setProductPictures,
   } = props;
-  const check = () => {
-    if (brandId === "") {
-      setMessage("Require select brand");
-      return false;
-    }
-    return true;
-  };
+  // const check = () => {
+  //   if (brandId === "") {
+  //     setMessage("Require select brand");
+  //     return false;
+  //   }
+  //   return true;
+  // };
   const checkName = (value) => {
     const checkName = listProduct.find((product) => product.name === value);
     checkName ? setMessage("Name already exists") : setMessage("");
@@ -52,14 +52,11 @@ const AddProductModal = (props) => {
     setCategory(value);
     const lst = listBrand.filter((brand) => brand.categoryId === value);
     if (lst.length > 0) {
-      setListSelect(lst);
+      // setListSelect(lst);
       setBrandId(lst[0]._id);
     } else {
-      setListSelect([]);
+      // setListSelect([]);
     }
-  };
-  const sub = () => {
-    return onSubmit;
   };
   return (
     <NewModal
@@ -203,6 +200,8 @@ const AddProductModal = (props) => {
                     src={!pic.img ? window.URL.createObjectURL(pic) : null}
                     width="100"
                     height="100"
+                    alt={`image product ${index}`}
+                    aria-hidden
                   />
                 ))
               : null}

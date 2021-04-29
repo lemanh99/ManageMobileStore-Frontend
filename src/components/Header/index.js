@@ -7,14 +7,14 @@ const Header = (props) => {
       <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a
+            <NavLink
+              to={`#`}
               className="nav-link"
               data-widget="pushmenu"
-              href="#"
               role="button"
             >
               <i className="fas fa-bars"></i>
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
             <NavLink to={`/signin`} className="nav-link">
@@ -22,14 +22,9 @@ const Header = (props) => {
             </NavLink>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">
-              Admin
-            </a>
-          </li>
-          <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">
-              Product
-            </a>
+            <NavLink to={`/statistical`} className="nav-link">
+              Statistical
+            </NavLink>
           </li>
         </ul>
         <form className="form-inline ml-3">

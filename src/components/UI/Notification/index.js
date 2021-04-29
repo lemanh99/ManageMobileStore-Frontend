@@ -3,7 +3,7 @@ import React from "react";
 const Notification = (props) => {
   return (
     <>
-      {props.message != "" ? (
+      {props.message !== "" ? (
         <>
           <div
             className="flashes"

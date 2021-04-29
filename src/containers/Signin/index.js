@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { login } from "../../actions";
 import Notification from "../../components/UI/Notification";
 
 const Signin = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -28,12 +27,11 @@ const Signin = (props) => {
       <div className="hold-transition login-page">
         <div className="login-box">
           <div className="login-logo">
-            <a href="#" className="text-black">
+            <NavLink className="text-black" to={`/`}>
               <b>Mobile Shop</b> ONLINE
-            </a>
+            </NavLink>
           </div>
           <div>
-            {" "}
             {auth.error !== "" ? (
               <Notification type="danger" message={auth.error} />
             ) : null}
@@ -86,9 +84,9 @@ const Signin = (props) => {
                     </button>
                   </div>
                   <div className="col-8 align-self-end">
-                    <a href="#" style={{ marginLeft: "127px" }}>
+                    <NavLink to={`/`} style={{ marginLeft: "127px" }}>
                       Trang chủ
-                    </a>
+                    </NavLink>
                   </div>
                 </div>
               </form>

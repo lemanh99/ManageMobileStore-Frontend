@@ -36,16 +36,12 @@ const Brand = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!brands.loading) {
-      dispatch(getListBrand());
-    }
-    if (!categories.loading) {
-      dispatch(getListCategory());
-    }
-  }, []);
+    dispatch(getListBrand());
+    dispatch(getListCategory());
+  }, [dispatch]);
   useEffect(() => {
     setMessage(brands.messages);
-  });
+  }, [brands.messages]);
   useEffect(() => {
     setListBrand(brands.listBrand);
     setListCategory(categories.listCategory);

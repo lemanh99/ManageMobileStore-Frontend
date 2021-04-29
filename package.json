@@ -1,9 +1,6 @@
 {
   "name": "frontend-admin",
   "version": "0.1.0",
-   "engines": {
-    "node": "14.15.4"
-  },
   "private": true,
   "engines": {
     "node": "14.15.4"

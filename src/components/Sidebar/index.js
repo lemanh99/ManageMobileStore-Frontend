@@ -82,12 +82,12 @@ const Sidebar = (props) => {
                 <p>Orders</p>
               </NavLink>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink to={`/statistical`} className="nav-link">
                 <i className="nav-icon fas fa-chart-bar"></i>
                 <p>Statistical</p>
               </NavLink>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <NavLink to="/settings" className="nav-link ">

@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 // import Tabs from "react-bootstrap/Tabs";
 import { Tab, Tabs } from "react-bootstrap";
 import PendingTable from "./components/PendingTable";
-import { getListCustomer, getOrders, orderShiped } from "../../actions";
+import { getListCustomer, getOrders, orderCanceled, orderShiped } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import CancelTable from "./components/CancelTable";
 import CompleteTable from "./components/CompleteTable";

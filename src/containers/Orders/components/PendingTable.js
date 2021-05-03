@@ -2,51 +2,21 @@ import { MDBDataTable } from "mdbreact";
 import React from "react";
 import TabPaneNew from "../../../components/UI/TabPane";
 import { ConvertIOStoDate } from "./ConvertStringToTime";
-// codeBill: "MDHUQRU6NgCX"
-// createdAt: "2021-03-24T13:26:40.953Z"
-// customerId: "60419d220a7638345cf98f18"
-// orderStatus: Array(4)
-// 0: {type: "ordered", isCompleted: true, _id: "605b3e10ef356a1474391275", date: "2021-03-24T13:26:40.938Z"}
-// 1: {type: "packed", isCompleted: false, _id: "605b3e10ef356a1474391276"}
-// 2: {type: "shipped", isCompleted: false, _id: "605b3e10ef356a1474391277"}
-// 3: {type: "delivered", isCompleted: false, _id: "605b3e10ef356a1474391278"}
-// length: 4
-// __proto__: Array(0)
-// paymentStatus: "pending"
-// paymentType: "cod"
-// productDetail: Array(1)
-// 0: {_id: "605b3e10ef356a1474391274", productId: "6057243832c8f328b472e32e", payablePrice: 1000, purchasedQty: 30}
-// length: 1
-// __proto__: Array(0)
-// totalAmount: 1000
-// updatedAt: "2021-03-24T13:26:40.953Z"
-// __v: 0
-// _id: "605b3e10ef356a1474391273"
-// __proto__: Object
-// 1:
-// codeBill: "MDHUQRU6NgCX"
-// createdAt: "2021-03-24T13:27:04.553Z"
-// customerId: "60419d220a7638345cf98f18"
-// orderStatus: (4) [{…}, {…}, {…}, {…}]
-// paymentStatus: "pending"
-// paymentType: "cod"
-// productDetail: [{…}]
-// totalAmount: 1000
-// updatedAt: "2021-03-24T13:27:04.553Z"
-// __v: 0
-// _id: "605b3e28ef356a1474391279"
-// __proto__: Object
-// 2: {codeBill: "MDHUQRU6NgCX", paymentStatus: "pending", paymentType: "cod", _id: "605b3e2cef356a147439127f", totalAmount: 1000, …}
-// 3: {codeBill: "MDHUQRU6NgCX", paymentStatus: "pending", paymentType: "cod", _id: "605b3e3aef356a1474391285", totalAmount: 1000, …}
-// length: 4
+
 const PendingTable = (props) => {
   const { listOrder, listCustomer, handleShow } = props;
   const rowTable = (orders) => {
-    
     const all = [];
     let index = 0;
     for (let order of orders) {
-      if (order.paymentStatus === "pending") {
+      const status = order.orderStatus
+        ? order.orderStatus.find((status) => status.isCompleted === true)
+        : null;
+      if (
+        status.type === "ordered" ||
+        status.type === "packed" ||
+        status.type === "shipped"
+      ) {
         const customer = listCustomer.find(
           (customer) => customer._id === order.customerId
         );
@@ -68,7 +38,7 @@ const PendingTable = (props) => {
                 onClick={handleShow}
                 style={{ marginRight: "5px" }}
               >
-                <i class="fas fa-folder" style={{marginRight: '4px'}}></i>
+                <i class="fas fa-folder" style={{ marginRight: "4px" }}></i>
                 View
               </button>
 
@@ -78,7 +48,7 @@ const PendingTable = (props) => {
                 // onClick={handleShowDelete}
                 style={{ marginRight: "5px" }}
               >
-                <i class="fas fa-trash" style={{marginRight: '4px'}}></i>
+                <i class="fas fa-trash" style={{ marginRight: "4px" }}></i>
                 Cancel
               </button>
             </div>

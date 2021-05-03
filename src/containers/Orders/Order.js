@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 // import Tabs from "react-bootstrap/Tabs";
 import { Tab, Tabs } from "react-bootstrap";
 import PendingTable from "./components/PendingTable";
-import { getListCustomer, getOrders } from "../../actions";
+import { getListCustomer, getOrders, orderShiped } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import CancelTable from "./components/CancelTable";
 import CompleteTable from "./components/CompleteTable";
@@ -23,6 +23,13 @@ const Order = () => {
     dispatch(getListCustomer());
   }, [dispatch]);
 
+  const handleShiped = (event) => {
+    dispatch(orderShiped(event.target.value));
+  };
+
+  const handleCancel = (event) => {
+    dispatch(orderCanceled(event.target.value));
+  };
   const handleShow = (event) => {
     const id = event.target.value;
     const ord = orders.orders.find((order) => order._id === id);
@@ -60,6 +67,7 @@ const Order = () => {
                       listCustomer={customers.listCustomer}
                       show={show}
                       handleShow={handleShow}
+                      
                     />
                   </Tab>
                   <Tab eventKey="2" title="Cancelled">
@@ -90,6 +98,8 @@ const Order = () => {
           handleClose={handleClose}
           order={order}
           customer={customer}
+          handleShiped = {handleShiped}
+          handleCancel = {handleCancel}
         />
       ) : null}
     </Layout>

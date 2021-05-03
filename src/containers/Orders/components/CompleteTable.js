@@ -8,7 +8,10 @@ const CompleteTable = (props) => {
     const all = [];
     let index = 0;
     for (let order of orders) {
-      if (order.paymentStatus === "completed") {
+      const status = order.orderStatus
+      ? order.orderStatus.find((status) => status.isCompleted === true)
+      : null;
+      if (status.type === "delivered") {
         const customer = listCustomer.find(
           (customer) => customer._id === order.customerId
         );

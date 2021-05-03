@@ -22,3 +22,28 @@ export const getOrders = () => {
     }
   };
 };
+
+export const orderShiped = (id) => {
+  return async (dispatch) => {
+    console.log("cjhay day", id);
+    const res = await axios.post(`/confirm-shiped/${id}`);
+    if (res.status === 201) {
+      dispatch(getOrders());
+    } else {
+      const { error } = res.data;
+      console.log(error);
+    }
+  };
+};
+
+export const orderCanceled = (id) => {
+  return async (dispatch) => {
+    const res = await axios.post(`/confirm-canceled-by-admin/${id}`);
+    if (res.status === 201) {
+      dispatch(getOrders());
+    } else {
+      const { error } = res.data;
+      console.log(error);
+    }
+  };
+};

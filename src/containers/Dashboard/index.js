@@ -341,7 +341,7 @@ const Dashboard = (props) => {
 
                     <div className="card-footer">
                       <div className="row">
-                        <div className="col-sm-3 col-6">
+                        {/* <div className="col-sm-3 col-6">
                           <div className="description-block border-right">
                             <span className="description-percentage text-success">
                               <i className="fas fa-caret-up" /> 17%
@@ -386,6 +386,7 @@ const Dashboard = (props) => {
                             </span>
                           </div>
                         </div>
+                       */}
                       </div>
                     </div>
                   </div>

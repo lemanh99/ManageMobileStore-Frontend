@@ -21,7 +21,7 @@ const ViewProductModal = (props) => {
     <NewModal
       show={show}
       handleClose={handleClose}
-      onSubmit={onSubmit}
+      // onSubmit={onSubmit}
       modalTitle={modalTitle}
     >
       <div className="card-body">

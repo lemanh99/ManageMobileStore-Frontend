@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { ConvertIOStoDate } from "./ConvertStringToTime";
 
 const InvoiceModal = (props) => {
-  const { order, customer } = props;
+  const { order, customer, handleShiped, handleCancel } = props;
   const print = () => {
     var content = document.getElementById("printarea");
     var pri = document.getElementById("ifmcontentstoprint").contentWindow;
@@ -13,6 +13,9 @@ const InvoiceModal = (props) => {
     pri.focus();
     pri.print();
   };
+  const status = order.orderStatus
+    ? order.orderStatus.find((status) => status.isCompleted === true)
+    : null;
   const date = new Date();
   return (
     <Modal size="xl" show={props.show} onHide={props.handleClose}>
@@ -137,6 +140,12 @@ const InvoiceModal = (props) => {
 
                         {order.paymentStatus}
                       </p>
+                      {order.paymentStatus === "pending" ? (
+                        <p>
+                          <b>Order Status :</b>
+                          {status ? status.type : null}
+                        </p>
+                      ) : null}
                     </div>
                     {/* /.col */}
                     <div className="col-6">
@@ -179,25 +188,31 @@ const InvoiceModal = (props) => {
             >
               <i className="fas fa-backspace" /> Back
             </button>
-
-            {order.paymentStatus === "pending" ? (
-              <>
-                <button
-                  type="button"
-                  className="btn btn-danger float-right"
-                  style={{ marginRight: "5px" }}
-                >
-                  <i className="fas fa-trash" /> Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success float-right"
-                  style={{ marginRight: "5px" }}
-                >
-                  <i className="far fa-credit-card" /> Delivery
-                </button>
-              </>
+            {status ? (
+              status.type === "ordered" ? (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-danger float-right"
+                    style={{ marginRight: "5px" }}
+                    value={order._id}
+                    onClick={handleCancel}
+                  >
+                    <i className="fas fa-trash" /> Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success float-right"
+                    style={{ marginRight: "5px" }}
+                    value={order._id}
+                    onClick={handleShiped}
+                  >
+                    <i className="far fa-credit-card" /> Delivery
+                  </button>
+                </>
+              ) : null
             ) : null}
+
             <button
               type="button"
               className="btn btn-primary float-right"

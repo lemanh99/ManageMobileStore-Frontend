@@ -1,3 +1,4 @@
+import axios from "axios";
 import Chart from "chart.js";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,31 +44,17 @@ const Dashboard = (props) => {
     dispatch(getListProduct());
   }, [dispatch]);
 
-  const topProductSale = (orders) => {
-    let listTop = [];
-    for (let order of orders) {
-      for (let prod of order.productDetail) {
-        var index = listTop.findIndex(
-          (product) => product._id === prod.productId
-        );
-        if (index !== -1) {
-          listTop[index]["value"] = listTop[index]["value"] + prod.purchasedQty;
-        } else {
-          var obj = {};
-          var pr = product.listProduct.find(
-            (product) => product._id === prod.productId
-          );
-          obj = { ...pr };
-          obj["value"] = prod.purchasedQty;
-          listTop.push(obj);
-        }
-      }
-    }
-    console.log(typeof listTop);
-    console.log(typeof product.listProduct);
-    return listTop;
-  };
-
+  useEffect(() => {
+    const token = window.localStorage.getItem('token');
+    axios.get("https://mobilelemanh.herokuapp.com/api/order/top?start=0&end=5", {
+      headers: {
+        Authorization:token, //the token is a variable which holds the token
+      },
+    }).then(res => {
+      const data = res.data;
+      setTopProduct(data.data)
+    });
+  }, []);
   useEffect(() => {
     const pending = order.orders.filter(
       (order) => order.paymentStatus === "pending"
@@ -76,8 +63,6 @@ const Dashboard = (props) => {
     setLastCustomer(customer.listCustomer.length);
     setLastProduct(product.listProduct.length);
     setLastOrder(order.orders.length);
-    topProductSale(order.orders);
-    setTopProduct(topProductSale(order.orders));
     setDataChart();
   }, [customer.listCustomer, product.listProduct, order.orders]);
 
@@ -419,8 +404,6 @@ const Dashboard = (props) => {
                     <div className="card-body p-0">
                       <ul className="products-list product-list-in-card pl-2 pr-2">
                         {topProduct
-                          .sort((a, b) => b.value - a.value)
-                          .slice(0, 5)
                           .map((product, index) => {
                             return (
                               <li className="item">
@@ -442,19 +425,20 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="product-info">
                                   <div className="product-title">
-                                    {product.name}
+                                    {product.product.name}
                                     <span className="badge badge-warning float-right">
-                                      ${product.price}
+                                      ${Math.round(product.product.price-product.product.price*product.product.discount/100)}
                                     </span>
                                   </div>
                                   <span className="product-description">
-                                    Sell number:<b>{product.value}</b>
+                                    Sell number:<b>{product.sellQuantity}</b>
                                   </span>
                                 </div>
                               </li>
                             );
                           })}
                       </ul>
+                    
                     </div>
                   </div>
                 </div>

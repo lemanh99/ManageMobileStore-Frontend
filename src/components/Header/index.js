@@ -21,11 +21,6 @@ const Header = (props) => {
               Home
             </NavLink>
           </li>
-          <li className="nav-item d-none d-sm-inline-block">
-            <NavLink to={`/statistical`} className="nav-link">
-              Statistical
-            </NavLink>
-          </li>
         </ul>
         <form className="form-inline ml-3">
           <div className="input-group input-group-sm">

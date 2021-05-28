@@ -28,6 +28,7 @@ const Order = () => {
   };
 
   const handleCancel = (event) => {
+    console.log("Huy",event.target.value)
     dispatch(orderCanceled(event.target.value));
   };
   const handleShow = (event) => {

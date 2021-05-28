@@ -12,7 +12,7 @@ const PendingTable = (props) => {
       const status = order.orderStatus
         ? order.orderStatus.find((status) => status.isCompleted === true)
         : null;
-      if (
+      if (status){      if (
         status.type === "ordered" ||
         status.type === "packed" ||
         status.type === "shipped"
@@ -29,7 +29,8 @@ const PendingTable = (props) => {
           total_products: order.productDetail.length,
           total_amount: order.totalAmount,
           date: ConvertIOStoDate(order.createdAt),
-          status: <span class="badge badge-warning">Pending</span>,
+          payment_status: <span class="badge badge-warning">{order.paymentStatus}</span>,
+          order_status: <span class="badge badge-warning">{status.type}</span>,
           btn: (
             <div class="project-actions  text-center">
               <button
@@ -42,7 +43,7 @@ const PendingTable = (props) => {
                 View
               </button>
 
-              <button
+              {/* <button
                 class="btn btn-danger btn-sm"
                 value={order._id}
                 // onClick={handleShowDelete}
@@ -50,12 +51,13 @@ const PendingTable = (props) => {
               >
                 <i class="fas fa-trash" style={{ marginRight: "4px" }}></i>
                 Cancel
-              </button>
+              </button> */}
             </div>
           ),
         };
         all.push(element);
-      }
+      }}
+
     }
     return all;
   };
@@ -80,13 +82,7 @@ const PendingTable = (props) => {
         width: 200,
       },
       {
-        label: "Total products",
-        field: "total_products",
-        sort: "asc",
-        width: 50,
-      },
-      {
-        label: "Total Amount",
+        label: "Total Price",
         field: "total_amount",
         sort: "asc",
         width: 50,
@@ -98,11 +94,18 @@ const PendingTable = (props) => {
         width: 50,
       },
       {
-        label: "Status",
-        field: "status",
+        label: "Order status",
+        field: "order_status",
         sort: "asc",
-        width: 200,
+        width: 50,
       },
+      {
+        label: "Payment status",
+        field: "payment_status",
+        sort: "asc",
+        width: 50,
+      },
+
       {
         label: "",
         field: "btn",

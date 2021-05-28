@@ -11,7 +11,7 @@ const CompleteTable = (props) => {
       const status = order.orderStatus
       ? order.orderStatus.find((status) => status.isCompleted === true)
       : null;
-      if (status.type === "delivered") {
+      if(status){      if (status.type === "delivered") {
         const customer = listCustomer.find(
           (customer) => customer._id === order.customerId
         );
@@ -41,7 +41,8 @@ const CompleteTable = (props) => {
           ),
         };
         all.push(element);
-      }
+      }}
+
     }
     return all;
   };

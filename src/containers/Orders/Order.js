@@ -25,11 +25,16 @@ const Order = () => {
 
   const handleShiped = (event) => {
     dispatch(orderShiped(event.target.value));
+    setShow(false);
+    setCustomer([]);
+    setOrder([]);
   };
 
   const handleCancel = (event) => {
-    console.log("Huy",event.target.value)
     dispatch(orderCanceled(event.target.value));
+    setShow(false);
+    setCustomer([]);
+    setOrder([]);
   };
   const handleShow = (event) => {
     const id = event.target.value;

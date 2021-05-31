@@ -12,38 +12,49 @@ const PendingTable = (props) => {
       const status = order.orderStatus
         ? order.orderStatus.find((status) => status.isCompleted === true)
         : null;
-      if (status){      if (
-        status.type === "ordered" ||
-        status.type === "packed" ||
-        status.type === "shipped"
-      ) {
-        const customer = listCustomer.find(
-          (customer) => customer._id === order.customerId
-        );
-        var element = {
-          sr: ++index,
-          invoice: order.codeBill,
-          customer: customer
-            ? customer.firstName + " " + customer.lastName
-            : null,
-          total_products: order.productDetail.length,
-          total_amount: order.totalAmount,
-          date: ConvertIOStoDate(order.createdAt),
-          payment_status: <span class="badge badge-warning">{order.paymentStatus}</span>,
-          order_status: <span class="badge badge-warning">{status.type}</span>,
-          btn: (
-            <div class="project-actions  text-center">
-              <button
-                class="btn btn-primary btn-sm"
-                value={order._id}
-                onClick={handleShow}
-                style={{ marginRight: "5px" }}
-              >
-                <i class="fas fa-folder" style={{ marginRight: "4px" }}></i>
-                View
-              </button>
+      if (status) {
+        if (
+          status.type === "ordered" ||
+          status.type === "packed" ||
+          status.type === "shipped"
+        ) {
+          const customer = listCustomer.find(
+            (customer) => customer._id === order.customerId
+          );
+          var element = {
+            sr: ++index,
+            invoice: order.codeBill,
+            customer: customer
+              ? customer.firstName + " " + customer.lastName
+              : null,
+            total_products: order.productDetail.length,
+            total_amount: order.totalAmount,
+            date: ConvertIOStoDate(order.createdAt),
+            payment_status:
+              order.paymentStatus === "completed" ? (
+                <span class="badge bg-success">{order.paymentStatus}</span>
+              ) : (
+                <span class="badge badge-warning">{order.paymentStatus}</span>
+              ),
+            order_status:
+              status.type === "shipped" ? (
+                <span class="badge bg-primary">{status.type}</span>
+              ) : (
+                <span class="badge badge-warning">{status.type}</span>
+              ),
+            btn: (
+              <div class="project-actions  text-center">
+                <button
+                  class="btn btn-primary btn-sm"
+                  value={order._id}
+                  onClick={handleShow}
+                  style={{ marginRight: "5px" }}
+                >
+                  <i class="fas fa-folder" style={{ marginRight: "4px" }}></i>
+                  View
+                </button>
 
-              {/* <button
+                {/* <button
                 class="btn btn-danger btn-sm"
                 value={order._id}
                 // onClick={handleShowDelete}
@@ -52,12 +63,12 @@ const PendingTable = (props) => {
                 <i class="fas fa-trash" style={{ marginRight: "4px" }}></i>
                 Cancel
               </button> */}
-            </div>
-          ),
-        };
-        all.push(element);
-      }}
-
+              </div>
+            ),
+          };
+          all.push(element);
+        }
+      }
     }
     return all;
   };

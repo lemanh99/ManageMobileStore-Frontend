@@ -9,6 +9,7 @@ import {
   getOrders,
 } from "../../actions";
 import Layout from "../../components/Layout";
+import { api } from "../../urlConfig";
 import InforBox from "./components/InforBox";
 import LastMember from "./components/LastMember";
 import LastOrders from "./components/LastOrders";
@@ -46,7 +47,8 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
-    axios.get("https://mobilelemanh.herokuapp.com/api/order/top?start=0&end=5", {
+    const url = api+"/order/top?start=0&end=5"
+    axios.get(url, {
       headers: {
         Authorization:token, //the token is a variable which holds the token
       },

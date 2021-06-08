@@ -50,7 +50,7 @@ const Dashboard = (props) => {
     const url = api+"/order/top?start=0&end=5"
     axios.get(url, {
       headers: {
-        Authorization:token, //the token is a variable which holds the token
+        Authorization: `Bearer ${token}`, //the token is a variable which holds the token
       },
     }).then(res => {
       const data = res.data;
